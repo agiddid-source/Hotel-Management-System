@@ -10,6 +10,16 @@
   <link rel="stylesheet" href="/assets/theme.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <style>
+    
+    .modal-scroll {
+      scrollbar-width: none;       
+      -ms-overflow-style: none;    
+    }
+    .modal-scroll::-webkit-scrollbar {
+      display: none;               
+    }
+  </style>
 </head>
 
 <body class="bg-background font-body min-h-screen">
@@ -112,14 +122,13 @@
 
   </div>
 
-  <!-- ======================================== -->
+ 
   <!-- Add Staff Modal -->
-  <!-- ======================================== -->
   <div id="addStaffModal" class="hidden fixed inset-0 z-50 items-center justify-center px-4 py-8">
 
-    <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" data-modal-close="addStaffModal"></div>
+    <div class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
 
-    <div class="relative bg-surface rounded-3xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+    <div class="relative bg-surface rounded-3xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto modal-scroll">
 
       <!-- Header -->
       <div class="flex items-center justify-between px-6 py-5 border-b border-border sticky top-0 bg-surface rounded-t-3xl">
@@ -221,14 +230,13 @@
 
   </div>
 
-  <!-- ======================================== -->
+ 
   <!-- Edit Staff Modal -->
-  <!-- ======================================== -->
   <div id="editStaffModal" class="hidden fixed inset-0 z-50 items-center justify-center px-4 py-8">
 
-    <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" data-modal-close="editStaffModal"></div>
+    <div class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
 
-    <div class="relative bg-surface rounded-3xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+    <div class="relative bg-surface rounded-3xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto modal-scroll">
 
       <!-- Header -->
       <div class="flex items-center justify-between px-6 py-5 border-b border-border sticky top-0 bg-surface rounded-t-3xl">
@@ -328,9 +336,7 @@
 
   </div>
 
-  <!-- ======================================== -->
   <!-- Toast Notification -->
-  <!-- ======================================== -->
   <div id="toast"
     class="hidden fixed bottom-6 right-6 z-[60] items-center gap-3 px-5 py-4 rounded-xl shadow-lg text-sm font-medium max-w-sm"
   >
