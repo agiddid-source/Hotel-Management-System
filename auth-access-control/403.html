@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Access Denied | HotelMS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/theme.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body class="bg-background min-h-screen flex items-center justify-center px-4 font-body">
+
+  <div class="w-full max-w-md">
+
+    <div class="bg-surface border border-border rounded-3xl p-10 text-center">
+
+      <!-- Icon -->
+      <div class="flex justify-center mb-6">
+        <div class="w-16 h-16 rounded-2xl bg-dangerBg flex items-center justify-center">
+          <i class="fa-solid fa-ban text-danger text-2xl"></i>
+        </div>
+      </div>
+
+      <!-- Error Code -->
+      <p class="text-sm font-semibold text-textTertiary uppercase tracking-widest mb-2">Error 403</p>
+
+      <!-- Title -->
+      <h1 class="font-heading text-3xl font-bold text-text mb-3">Access Denied</h1>
+
+      <!-- Description -->
+      <p class="text-sm text-textSecondary leading-relaxed mb-8">
+        You don't have permission to view this page. If you think this is a mistake, contact your administrator.
+      </p>
+
+      <!-- User context (populated by JS if session exists) -->
+      <div id="userContext" class="hidden mb-6 p-3 rounded-xl bg-surfaceMuted border border-border text-left">
+        <p class="text-xs text-textTertiary mb-0.5">Signed in as</p>
+        <p id="userName" class="text-sm font-medium text-text"></p>
+        <p id="userRole" class="text-xs text-textSecondary capitalize"></p>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex flex-col gap-3">
+
+        <a href="../dashboard.html"
+          class="w-full h-11 bg-secondary text-white rounded-xl text-sm font-medium hover:opacity-90 transition flex items-center justify-center gap-2"
+        >
+          <i class="fa-solid fa-house text-xs"></i>
+          Back to Dashboard
+        </a>
+
+        <button onclick="logout()"
+          class="w-full h-11 border border-border text-text rounded-xl text-sm font-medium hover:bg-background transition flex items-center justify-center gap-2"
+        >
+          <i class="fa-solid fa-right-from-bracket text-xs"></i>
+          Sign in with a different account
+        </button>
+
+      </div>
+
+    </div>
+
+    <p class="text-center text-xs text-textTertiary mt-6">
+      &copy; 2026 HotelMS. All rights reserved.
+    </p>
+
+  </div>
+
+  <!-- This page IS the root, so AUTH_BASE is empty -->
+  <script>const AUTH_BASE = "";</script>
+  <script src="js/auth/session.js"></script>
+  <script>
+    const user = getCurrentUser();
+    if (user) {
+      document.getElementById("userName").textContent = user.name;
+      document.getElementById("userRole").textContent = user.role;
+      document.getElementById("userContext").classList.remove("hidden");
+      document.getElementById("userContext").classList.add("block");
+    }
+  </script>
+
+</body>
+</html>

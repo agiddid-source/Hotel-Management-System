@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Staff | HotelMS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/theme.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body class="bg-background font-body min-h-screen">
+
+  <div class="max-w-2xl mx-auto px-6 py-10">
+
+    <!-- Back Link -->
+    <a href="staff-list.html" class="inline-flex items-center gap-2 text-sm text-textSecondary hover:text-text transition mb-6">
+      <i class="fa-solid fa-arrow-left text-xs"></i>
+      Back to Staff
+    </a>
+
+    <!-- Page Header -->
+    <div class="mb-8">
+      <p class="text-sm font-medium text-textTertiary uppercase tracking-widest mb-1">Admin</p>
+      <h1 class="font-heading text-3xl font-bold text-text">Add Staff</h1>
+      <p class="text-textSecondary mt-1">Create a new staff account and assign a role.</p>
+    </div>
+
+    <!-- Form Card -->
+    <div class="bg-surface border border-border rounded-2xl p-6 sm:p-8">
+
+      <form id="addStaffForm" class="space-y-5">
+
+        <!-- Full Name -->
+        <div>
+          <label for="fullName" class="block mb-1.5 text-sm font-medium text-text">
+            Full Name
+          </label>
+          <input type="text" id="fullName" required placeholder="e.g. Jane Okonkwo"
+            class="w-full h-11 px-4 bg-background border border-border rounded-xl text-sm focus:outline-none focus:border-primary transition"
+          >
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label for="email" class="block mb-1.5 text-sm font-medium text-text">
+            Email Address
+          </label>
+          <input type="email" id="email" required placeholder="e.g. jane@hotelms.com"
+            class="w-full h-11 px-4 bg-background border border-border rounded-xl text-sm focus:outline-none focus:border-primary transition"
+          >
+        </div>
+
+        <!-- Role -->
+        <div>
+          <label for="role" class="block mb-1.5 text-sm font-medium text-text">
+            Role
+          </label>
+          <select id="role" required
+            class="w-full h-11 px-4 bg-background border border-border rounded-xl text-sm text-text focus:outline-none focus:border-primary transition"
+          >
+            <option value="">Select a role</option>
+            <option value="admin">Admin</option>
+            <option value="manager">Manager</option>
+            <option value="receptionist">Receptionist</option>
+            <option value="housekeeper">Housekeeper</option>
+            <option value="inventory_staff">Inventory Staff</option>
+          </select>
+        </div>
+
+        <!-- Temporary Password -->
+        <div>
+          <label for="password" class="block mb-1.5 text-sm font-medium text-text">
+            Temporary Password
+          </label>
+          <div class="relative">
+            <input type="password" id="password" required placeholder="Min. 8 characters"
+              class="w-full h-11 pl-4 pr-11 bg-background border border-border rounded-xl text-sm focus:outline-none focus:border-primary transition"
+            >
+            <button type="button" id="togglePassword"
+              class="absolute right-4 top-1/2 -translate-y-1/2 text-textTertiary hover:text-text transition"
+            >
+              <i class="fa-regular fa-eye text-sm"></i>
+            </button>
+          </div>
+          <p class="mt-1.5 text-xs text-textTertiary">Staff will be prompted to change this on first login.</p>
+        </div>
+
+        <!-- Status -->
+        <div>
+          <label for="status" class="block mb-1.5 text-sm font-medium text-text">
+            Account Status
+          </label>
+          <select id="status"
+            class="w-full h-11 px-4 bg-background border border-border rounded-xl text-sm text-text focus:outline-none focus:border-primary transition"
+          >
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+
+        <!-- Divider -->
+        <div class="border-t border-border pt-5 space-y-3">
+
+          <!-- Messages -->
+          <div id="successMessage" class="hidden items-center gap-3 p-4 rounded-xl bg-successBg text-success text-sm font-medium">
+            <i class="fa-solid fa-circle-check"></i>
+            <span></span>
+          </div>
+
+          <div id="errorMessage" class="hidden items-center gap-3 p-4 rounded-xl bg-dangerBg text-danger text-sm font-medium">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span></span>
+          </div>
+
+          <!-- Actions -->
+          <div class="flex flex-col sm:flex-row gap-3">
+            <button type="submit"
+              class="flex-1 h-11 bg-secondary text-white rounded-xl text-sm font-medium hover:opacity-90 transition"
+            >
+              Create Staff Account
+            </button>
+            <a href="staff-list.html"
+              class="flex-1 h-11 border border-border rounded-xl flex items-center justify-center text-sm text-text font-medium hover:bg-background transition"
+            >
+              Cancel
+            </a>
+          </div>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+  <!-- Auth & RBAC -->
+  <script>const AUTH_BASE = "../";</script>
+  <script src="../js/auth/session.js"></script>
+  <script src="../js/roles/permissions.js"></script>
+  <script src="../js/roles/roleGuard.js"></script>
+  <script>
+    requireAuth();
+    requirePermission("staff_management");
+  </script>
+
+  <script src="../js/data/staffs.js"></script>
+  
+
+  <!-- Password Toggle -->
+  <script>
+    const passwordInput = document.getElementById("password");
+    const togglePassword = document.getElementById("togglePassword");
+    togglePassword.addEventListener("click", () => {
+      const icon = togglePassword.querySelector("i");
+      if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        icon.classList.replace("fa-eye", "fa-eye-slash");
+      } else {
+        passwordInput.type = "password";
+        icon.classList.replace("fa-eye-slash", "fa-eye");
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | HotelMS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="../assets/theme.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-background min-h-screen flex items-center justify-center px-4 font-body">
+
+  <div class="w-full max-w-md">
+
+    <div class="bg-surface border border-border rounded-3xl p-8 shadow-sm">
+
+      <!-- Logo -->
+      <div class="text-center mb-8">
+        <span class="font-heading text-2xl font-bold text-secondary">HotelMS</span>
+      </div>
+
+      <!-- Heading -->
+      <div class="text-center mb-8">
+        <h1 class="font-heading text-3xl font-bold text-text mb-2">Welcome Back</h1>
+        <p class="text-sm text-textSecondary">Sign in to continue to your workspace.</p>
+      </div>
+
+      <!-- Error Message -->
+      <div id="errorMessage" class="hidden items-center gap-3 mb-5 p-4 rounded-xl bg-dangerBg text-danger text-sm font-medium">
+        <i class="fa-solid fa-circle-exclamation flex-shrink-0"></i>
+        <span></span>
+      </div>
+
+      <!-- Form -->
+      <form id="loginForm" class="space-y-5">
+
+        <!-- Email -->
+        <div>
+          <label for="email" class="block mb-1.5 text-sm font-medium text-text">
+            Email Address
+          </label>
+          <div class="relative">
+            <i class="fa-regular fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-textTertiary text-sm"></i>
+            <input type="email" id="email" name="email" placeholder="you@hotelms.com" required
+              class="w-full h-11 pl-10 pr-4 bg-background border border-border rounded-xl text-sm focus:outline-none focus:border-primary transition"
+            >
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div>
+          <label for="password" class="block mb-1.5 text-sm font-medium text-text">
+            Password
+          </label>
+          <div class="relative">
+            <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-textTertiary text-sm"></i>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required
+              class="w-full h-11 pl-10 pr-11 bg-background border border-border rounded-xl text-sm focus:outline-none focus:border-primary transition"
+            >
+            <button type="button" id="togglePassword"
+              class="absolute right-4 top-1/2 -translate-y-1/2 text-textTertiary hover:text-text transition"
+            >
+              <i class="fa-regular fa-eye text-sm"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Remember Me + Forgot Password -->
+        <div class="flex items-center justify-between">
+          <label class="flex items-center gap-2 text-sm text-textSecondary cursor-pointer">
+            <input type="checkbox" id="rememberMe" class="accent-primary w-4 h-4">
+            Remember me
+          </label>
+          <a href="forgot-password.html" class="text-sm font-medium text-secondary hover:underline">
+            Forgot password?
+          </a>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit"
+          class="w-full h-11 bg-secondary text-white rounded-xl text-sm font-medium hover:opacity-90 transition"
+        >
+          Sign In
+        </button>
+
+      </form>
+
+    </div>
+
+    <p class="text-center text-xs text-textTertiary mt-6">
+      HotelMS &copy; 2026 &mdash; Staff portal
+    </p>
+
+  </div>
+
+  <script>
+    const passwordInput  = document.getElementById("password");
+    const togglePassword = document.getElementById("togglePassword");
+
+    togglePassword.addEventListener("click", () => {
+      const icon = togglePassword.querySelector("i");
+      if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        icon.classList.replace("fa-eye", "fa-eye-slash");
+      } else {
+        passwordInput.type = "password";
+        icon.classList.replace("fa-eye-slash", "fa-eye");
+      }
+    });
+  </script>
+
+  <script src="js/data/users.js"></script>
+  <script src="js/auth/session.js"></script>
+  <script src="js/auth/login.js"></script>
+
+</body>
+</html>

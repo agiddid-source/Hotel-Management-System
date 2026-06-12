@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff Management | HotelMS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/theme.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body class="bg-background font-body min-h-screen">
+
+  <div class="max-w-7xl mx-auto px-6 py-10">
+
+    <!-- Page Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+
+      <div>
+        <p class="text-sm font-medium text-textTertiary uppercase tracking-widest mb-1">Admin</p>
+        <h1 class="font-heading text-3xl font-bold text-text">Staff Management</h1>
+        <p class="text-textSecondary mt-1">Manage staff accounts and role assignments.</p>
+      </div>
+
+      <div class="flex items-center gap-3 self-start sm:self-auto">
+
+        <button id="resetDataBtn" type="button"
+          title="Dev only: reset mock data to original seed"
+          class="inline-flex items-center gap-2 px-4 h-11 border border-borderDark text-textTertiary rounded-xl font-medium hover:text-text hover:bg-surfaceMuted transition text-sm"
+        >
+          <i class="fa-solid fa-rotate-left text-xs"></i>
+          Reset Demo Data
+        </button>
+
+        <button id="openAddStaffBtn" type="button"
+          class="inline-flex items-center gap-2 px-5 h-11 bg-secondary text-white rounded-xl font-medium hover:opacity-90 transition text-sm"
+        >
+          <i class="fa-solid fa-plus text-xs"></i>
+          Add Staff
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- Stats Row -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8" id="statsRow">
+      <!-- Populated by JS -->
+    </div>
+
+    <!-- Controls -->
+    <div class="flex flex-col sm:flex-row gap-3 mb-5">
+
+      <div class="relative flex-1 max-w-sm">
+        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-textTertiary text-sm"></i>
+        <input type="text" id="searchInput" placeholder="Search by name, email or role..."
+          class="w-full h-11 pl-10 pr-4 bg-surface border border-border rounded-xl text-sm focus:outline-none focus:border-primary transition"
+        >
+      </div>
+
+      <select id="roleFilter"
+        class="h-11 px-4 bg-surface border border-border rounded-xl text-sm text-text focus:outline-none focus:border-primary transition"
+      >
+        <option value="">All Roles</option>
+        <option value="admin">Admin</option>
+        <option value="manager">Manager</option>
+        <option value="receptionist">Receptionist</option>
+        <option value="housekeeper">Housekeeper</option>
+        <option value="inventory_staff">Inventory Staff</option>
+      </select>
+
+      <select id="statusFilter"
+        class="h-11 px-4 bg-surface border border-border rounded-xl text-sm text-text focus:outline-none focus:border-primary transition"
+      >
+        <option value="">All Statuses</option>
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+      </select>
+
+    </div>
+
+    <!-- Table Card -->
+    <div class="bg-surface border border-border rounded-2xl overflow-hidden">
+
+      <div class="overflow-x-auto">
+        <table class="w-full">
+
+          <thead class="bg-surfaceMuted border-b border-border">
+            <tr>
+              <th class="text-left px-6 py-3.5 text-xs font-semibold text-textTertiary uppercase tracking-wider">Name</th>
+              <th class="text-left px-6 py-3.5 text-xs font-semibold text-textTertiary uppercase tracking-wider">Email</th>
+              <th class="text-left px-6 py-3.5 text-xs font-semibold text-textTertiary uppercase tracking-wider">Role</th>
+              <th class="text-left px-6 py-3.5 text-xs font-semibold text-textTertiary uppercase tracking-wider">Status</th>
+              <th class="text-left px-6 py-3.5 text-xs font-semibold text-textTertiary uppercase tracking-wider">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody id="staffTableBody" class="divide-y divide-border">
+            <!-- Populated by JS -->
+          </tbody>
+
+        </table>
+      </div>
+
+    </div>
+
+    <!-- Result Count -->
+    <p id="resultCount" class="text-xs text-textTertiary mt-3"></p>
+
+  </div>
+
+  <!-- ======================================== -->
+  <!-- Add Staff Modal -->
+  <!-- ======================================== -->
+  <div id="addStaffModal" class="hidden fixed inset-0 z-50 items-center justify-center px-4 py-8">
+
+    <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" data-modal-close="addStaffModal"></div>
+
+    <div class="relative bg-surface rounded-3xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+
+      <!-- Header -->
+      <div class="flex items-center justify-between px-6 py-5 border-b border-border sticky top-0 bg-surface rounded-t-3xl">
+        <div>
+          <p class="text-xs font-medium text-textTertiary uppercase tracking-widest mb-0.5">Admin</p>
+          <h2 class="font-heading text-xl font-bold text-text">Add Staff</h2>
+        </div>
+        <button type="button" data-modal-close="addStaffModal"
+          class="w-8 h-8 rounded-full flex items-center justify-center text-textTertiary hover:text-text hover:bg-background transition"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Form -->
+      <form id="addStaffForm" class="p-6 space-y-5">
+
+        <!-- Full Name -->
+        <div>
+          <label for="addFullName" class="block mb-1.5 text-sm font-medium text-text">Full Name</label>
+          <input type="text" id="addFullName" required placeholder="e.g. Jane Okonkwo"
+            class="w-full h-11 px-4 bg-background border border-border rounded-xl text-sm focus:outline-none focus:border-primary transition"
+          >
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label for="addEmail" class="block mb-1.5 text-sm font-medium text-text">Email Address</label>
+          <input type="email" id="addEmail" required placeholder="e.g. jane@hotelms.com"
+            class="w-full h-11 px-4 bg-background border border-border rounded-xl text-sm focus:outline-none focus:border-primary transition"
+          >
+        </div>
+
+        <!-- Role -->
+        <div>
+          <label for="addRole" class="block mb-1.5 text-sm font-medium text-text">Role</label>
+          <select id="addRole" required
+            class="w-full h-11 px-4 bg-background border border-border rounded-xl text-sm text-text focus:outline-none focus:border-primary transition"
+          >
+            <option value="">Select a role</option>
+            <option value="admin">Admin</option>
+            <option value="manager">Manager</option>
+            <option value="receptionist">Receptionist</option>
+            <option value="housekeeper">Housekeeper</option>
+            <option value="inventory_staff">Inventory Staff</option>
+          </select>
+        </div>
+
+        <!-- Temporary Password -->
+        <div>
+          <label for="addPassword" class="block mb-1.5 text-sm font-medium text-text">Temporary Password</label>
+          <div class="relative">
+            <input type="password" id="addPassword" required placeholder="Min. 8 characters"
+              class="w-full h-11 pl-4 pr-11 bg-background border border-border rounded-xl text-sm focus:outline-none focus:border-primary transition"
+            >
+            <button type="button" id="toggleAddPassword"
+              class="absolute right-4 top-1/2 -translate-y-1/2 text-textTertiary hover:text-text transition"
+            >
+              <i class="fa-regular fa-eye text-sm"></i>
+            </button>
+          </div>
+          <p class="mt-1.5 text-xs text-textTertiary">Staff will be prompted to change this on first login.</p>
+        </div>
+
+        <!-- Status -->
+        <div>
+          <label for="addStatus" class="block mb-1.5 text-sm font-medium text-text">Account Status</label>
+          <select id="addStatus"
+            class="w-full h-11 px-4 bg-background border border-border rounded-xl text-sm text-text focus:outline-none focus:border-primary transition"
+          >
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+
+        <!-- Inline Error -->
+        <div id="addErrorMessage" class="hidden items-center gap-3 p-4 rounded-xl bg-dangerBg text-danger text-sm font-medium">
+          <i class="fa-solid fa-circle-exclamation"></i>
+          <span></span>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex flex-col sm:flex-row gap-3 pt-2 border-t border-border">
+          <button type="submit"
+            class="flex-1 h-11 bg-secondary text-white rounded-xl text-sm font-medium hover:opacity-90 transition"
+          >
+            Create Staff Account
+          </button>
+          <button type="button" data-modal-close="addStaffModal"
+            class="flex-1 h-11 border border-border rounded-xl text-sm text-text font-medium hover:bg-background transition"
+          >
+            Cancel
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+  <!-- ======================================== -->
+  <!-- Edit Staff Modal -->
+  <!-- ======================================== -->
+  <div id="editStaffModal" class="hidden fixed inset-0 z-50 items-center justify-center px-4 py-8">
+
+    <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" data-modal-close="editStaffModal"></div>
+
+    <div class="relative bg-surface rounded-3xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+
+      <!-- Header -->
+      <div class="flex items-center justify-between px-6 py-5 border-b border-border sticky top-0 bg-surface rounded-t-3xl">
+        <div>
+          <p class="text-xs font-medium text-textTertiary uppercase tracking-widest mb-0.5">Admin</p>
+          <h2 class="font-heading text-xl font-bold text-text">Edit Staff</h2>
+        </div>
+        <button type="button" data-modal-close="editStaffModal"
+          class="w-8 h-8 rounded-full flex items-center justify-center text-textTertiary hover:text-text hover:bg-background transition"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="p-6 space-y-5">
+
+        <!-- Staff Identity Banner -->
+        <div class="p-4 bg-background border border-border rounded-2xl flex items-center gap-4">
+          <div id="editStaffAvatar"
+            class="w-11 h-11 rounded-full bg-secondary flex items-center justify-center text-white font-semibold text-sm flex-shrink-0"
+          ></div>
+          <div>
+            <p id="editBannerName" class="font-semibold text-text text-sm"></p>
+            <p id="editBannerEmail" class="text-xs text-textSecondary"></p>
+          </div>
+        </div>
+
+        <!-- Form -->
+        <form id="editStaffForm" class="space-y-5">
+
+          <!-- Full Name -->
+          <div>
+            <label for="editFullName" class="block mb-1.5 text-sm font-medium text-text">Full Name</label>
+            <input type="text" id="editFullName" required
+              class="w-full h-11 px-4 bg-background border border-border rounded-xl text-sm focus:outline-none focus:border-primary transition"
+            >
+          </div>
+
+          <!-- Email -->
+          <div>
+            <label for="editEmail" class="block mb-1.5 text-sm font-medium text-text">Email Address</label>
+            <input type="email" id="editEmail" required
+              class="w-full h-11 px-4 bg-background border border-border rounded-xl text-sm focus:outline-none focus:border-primary transition"
+            >
+          </div>
+
+          <!-- Role -->
+          <div>
+            <label for="editRole" class="block mb-1.5 text-sm font-medium text-text">Role</label>
+            <select id="editRole" required
+              class="w-full h-11 px-4 bg-background border border-border rounded-xl text-sm text-text focus:outline-none focus:border-primary transition"
+            >
+              <option value="admin">Admin</option>
+              <option value="manager">Manager</option>
+              <option value="receptionist">Receptionist</option>
+              <option value="housekeeper">Housekeeper</option>
+              <option value="inventory_staff">Inventory Staff</option>
+            </select>
+          </div>
+
+          <!-- Status -->
+          <div>
+            <label for="editStatus" class="block mb-1.5 text-sm font-medium text-text">Account Status</label>
+            <select id="editStatus"
+              class="w-full h-11 px-4 bg-background border border-border rounded-xl text-sm text-text focus:outline-none focus:border-primary transition"
+            >
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+
+          <!-- Inline Error -->
+          <div id="editErrorMessage" class="hidden items-center gap-3 p-4 rounded-xl bg-dangerBg text-danger text-sm font-medium">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span></span>
+          </div>
+
+          <!-- Actions -->
+          <div class="flex flex-col sm:flex-row gap-3 pt-2 border-t border-border">
+            <button type="submit"
+              class="flex-1 h-11 bg-secondary text-white rounded-xl text-sm font-medium hover:opacity-90 transition"
+            >
+              Save Changes
+            </button>
+            <button type="button" data-modal-close="editStaffModal"
+              class="flex-1 h-11 border border-border rounded-xl text-sm text-text font-medium hover:bg-background transition"
+            >
+              Cancel
+            </button>
+          </div>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ======================================== -->
+  <!-- Toast Notification -->
+  <!-- ======================================== -->
+  <div id="toast"
+    class="hidden fixed bottom-6 right-6 z-[60] items-center gap-3 px-5 py-4 rounded-xl shadow-lg text-sm font-medium max-w-sm"
+  >
+    <i id="toastIcon" class="text-base"></i>
+    <span id="toastText"></span>
+  </div>
+
+  <!-- Auth & RBAC -->
+  <script>const AUTH_BASE = "../";</script>
+  <script src="../js/auth/session.js"></script>
+  <script src="../js/roles/permissions.js"></script>
+  <script src="../js/roles/roleGuard.js"></script>
+  <script>
+    requireAuth();
+    requirePermission("staff_management");
+  </script>
+
+  <script src="../js/data/staffs.js"></script>
+  <script src="../js/admin/staffManager.js"></script>
+
+</body>
+</html>

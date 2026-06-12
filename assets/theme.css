@@ -1,0 +1,73 @@
+:root {
+  /* Backgrounds */
+  --color-background: #EFEFEF;
+  --color-surface: #FFFFFF;
+
+  /* Accents */
+  --color-primary: #FF682C;
+  --color-secondary: #4A90E2;
+
+  /* Text */
+  --color-text: #202020;
+  --color-text-secondary: #4D4D4D;
+  --color-text-tertiary: #7A7A7A;
+
+  --color-success: #16A34A;
+  --color-success-bg: #DCFCE7;
+  --color-danger: #DC2626;
+  --color-danger-bg: #FEE2E2;
+  --color-surface-muted: #F8F8F8;
+
+  /* Borders */
+  --color-border: #E8E8E8;
+  --color-border-dark: #D0D0D0;
+}
+
+/* Backgrounds */
+.bg-background { background-color: var(--color-background) !important; }
+.bg-surface { background-color: var(--color-surface) !important; }
+
+/* Primary Accent */
+.bg-primary { background-color: var(--color-primary) !important; }
+.text-primary { color: var(--color-primary) !important; }
+.border-primary { border-color: var(--color-primary) !important; }
+
+/* Secondary Accent */
+.bg-secondary { background-color: var(--color-secondary) !important; }
+.text-secondary { color: var(--color-secondary) !important; }
+.border-secondary { border-color: var(--color-secondary) !important; }
+
+/* Text */
+.text-text { color: var(--color-text) !important; }
+.text-textSecondary { color: var(--color-text-secondary) !important; }
+.text-textTertiary { color: var(--color-text-tertiary) !important; }
+
+/* Borders */
+.border-border { border-color: var(--color-border) !important; }
+.border-borderDark { border-color: var(--color-border-dark) !important; }
+
+/* Focus rings */
+.ring-primary { --tw-ring-color: var(--color-primary) !important; }
+.ring-secondary { --tw-ring-color: var(--color-secondary) !important; }
+
+/* Form accent */
+.accent-primary { accent-color: var(--color-primary); }
+.accent-secondary { accent-color: var(--color-secondary); }
+
+/* Typography */
+.font-heading { font-family: 'Outfit', sans-serif; }
+.font-body { font-family: 'Inter', sans-serif; }
+
+/* Status Colors */
+.bg-success { background-color: #16A34A !important; }
+.text-success { color: #16A34A !important; }
+.border-success { border-color: #16A34A !important; }
+.bg-successBg { background-color: #DCFCE7 !important; }
+
+.bg-danger { background-color: #DC2626 !important; }
+.text-danger { color: #DC2626 !important; }
+.border-danger { border-color: #DC2626 !important; }
+.bg-dangerBg { background-color: #FEE2E2 !important; }
+
+/* Surface Variant */
+.bg-surfaceMuted { background-color: #F8F8F8 !important; }

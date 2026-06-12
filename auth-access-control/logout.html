@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log Out | HotelMS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="../assets/theme.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-background min-h-screen flex items-center justify-center px-4 font-body">
+
+  <div class="w-full max-w-md">
+
+    <div class="bg-surface border border-border rounded-3xl p-8 shadow-sm text-center">
+
+      <!-- Logo -->
+      <div class="text-center mb-8">
+        <span class="font-heading text-2xl font-bold text-secondary">HotelMS</span>
+      </div>
+
+      <!-- Icon -->
+      <div class="flex justify-center mb-6">
+        <div class="w-14 h-14 rounded-2xl bg-background border border-border flex items-center justify-center">
+          <i class="fa-solid fa-right-from-bracket text-secondary text-xl"></i>
+        </div>
+      </div>
+
+      <!-- Confirm State -->
+      <div id="confirmState">
+
+        <h1 class="font-heading text-3xl font-bold text-text mb-2">Log Out</h1>
+        <p class="text-sm text-textSecondary mb-8" id="confirmText">
+          Are you sure you want to log out of your HotelMS account?
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-3">
+
+          <button id="confirmLogoutBtn" type="button"
+            class="flex-1 h-11 bg-danger text-white rounded-xl text-sm font-medium hover:opacity-90 transition"
+          >
+            <i class="fa-solid fa-right-from-bracket mr-1.5"></i>
+            Yes, Log Out
+          </button>
+
+          <button id="cancelLogoutBtn" type="button"
+            class="flex-1 h-11 border border-border rounded-xl text-sm text-text font-medium hover:bg-background transition"
+          >
+            Cancel
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- Logged Out State -->
+      <div id="loggedOutState" class="hidden">
+
+        <div class="flex justify-center mb-4">
+          <div class="w-14 h-14 rounded-2xl bg-successBg flex items-center justify-center">
+            <i class="fa-solid fa-circle-check text-success text-xl"></i>
+          </div>
+        </div>
+
+        <h1 class="font-heading text-3xl font-bold text-text mb-2">You're Logged Out</h1>
+        <p class="text-sm text-textSecondary mb-8">
+          Your session has ended. Redirecting you to the login page...
+        </p>
+
+        <a href="login.html"
+          class="inline-flex items-center justify-center gap-2 h-11 px-6 bg-secondary text-white rounded-xl text-sm font-medium hover:opacity-90 transition"
+        >
+          Go to Login Now
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="js/auth/session.js"></script>
+  <script src="js/auth/logout.js"></script>
+
+</body>
+</html>

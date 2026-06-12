@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Staff | HotelMS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/theme.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body class="bg-background font-body min-h-screen">
+
+  <div class="max-w-2xl mx-auto px-6 py-10">
+
+    <!-- Back Link -->
+    <a href="staff-list.html" class="inline-flex items-center gap-2 text-sm text-textSecondary hover:text-text transition mb-6">
+      <i class="fa-solid fa-arrow-left text-xs"></i>
+      Back to Staff
+    </a>
+
+    <!-- Page Header -->
+    <div class="mb-8">
+      <p class="text-sm font-medium text-textTertiary uppercase tracking-widest mb-1">Admin</p>
+      <h1 class="font-heading text-3xl font-bold text-text">Edit Staff</h1>
+      <p class="text-textSecondary mt-1">Update staff information and role assignment.</p>
+    </div>
+
+    <!-- Staff Identity Banner (populated by JS) -->
+    <div id="staffBanner" class="hidden mb-6 p-4 bg-surface border border-border rounded-2xl flex items-center gap-4">
+      <div id="staffAvatar"
+        class="w-11 h-11 rounded-full bg-secondary flex items-center justify-center text-white font-semibold text-sm flex-shrink-0"
+      ></div>
+      <div>
+        <p id="bannerName" class="font-semibold text-text text-sm"></p>
+        <p id="bannerEmail" class="text-xs text-textSecondary"></p>
+      </div>
+    </div>
+
+    <!-- Form Card -->
+    <div class="bg-surface border border-border rounded-2xl p-6 sm:p-8">
+
+      <form id="editStaffForm" class="space-y-5">
+
+        <!-- Full Name -->
+        <div>
+          <label for="fullName" class="block mb-1.5 text-sm font-medium text-text">
+            Full Name
+          </label>
+          <input type="text" id="fullName" required
+            class="w-full h-11 px-4 bg-background border border-border rounded-xl text-sm focus:outline-none focus:border-primary transition"
+          >
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label for="email" class="block mb-1.5 text-sm font-medium text-text">
+            Email Address
+          </label>
+          <input type="email" id="email" required
+            class="w-full h-11 px-4 bg-background border border-border rounded-xl text-sm focus:outline-none focus:border-primary transition"
+          >
+        </div>
+
+        <!-- Role -->
+        <div>
+          <label for="role" class="block mb-1.5 text-sm font-medium text-text">
+            Role
+          </label>
+          <select id="role" required
+            class="w-full h-11 px-4 bg-background border border-border rounded-xl text-sm text-text focus:outline-none focus:border-primary transition"
+          >
+            <option value="admin">Admin</option>
+            <option value="manager">Manager</option>
+            <option value="receptionist">Receptionist</option>
+            <option value="housekeeper">Housekeeper</option>
+            <option value="inventory_staff">Inventory Staff</option>
+          </select>
+        </div>
+
+        <!-- Status -->
+        <div>
+          <label for="status" class="block mb-1.5 text-sm font-medium text-text">
+            Account Status
+          </label>
+          <select id="status"
+            class="w-full h-11 px-4 bg-background border border-border rounded-xl text-sm text-text focus:outline-none focus:border-primary transition"
+          >
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+
+        <!-- Divider -->
+        <div class="border-t border-border pt-5 space-y-3">
+
+          <!-- Messages -->
+          <div id="successMessage" class="hidden items-center gap-3 p-4 rounded-xl bg-successBg text-success text-sm font-medium">
+            <i class="fa-solid fa-circle-check"></i>
+            <span></span>
+          </div>
+
+          <div id="errorMessage" class="hidden items-center gap-3 p-4 rounded-xl bg-dangerBg text-danger text-sm font-medium">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span></span>
+          </div>
+
+          <!-- Actions -->
+          <div class="flex flex-col sm:flex-row gap-3">
+            <button type="submit"
+              class="flex-1 h-11 bg-secondary text-white rounded-xl text-sm font-medium hover:opacity-90 transition"
+            >
+              Save Changes
+            </button>
+            <a href="staff-list.html"
+              class="flex-1 h-11 border border-border rounded-xl flex items-center justify-center text-sm text-text font-medium hover:bg-background transition"
+            >
+              Cancel
+            </a>
+          </div>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+  <!-- Auth & RBAC -->
+  <script>const AUTH_BASE = "../";</script>
+  <script src="../js/auth/session.js"></script>
+  <script src="../js/roles/permissions.js"></script>
+  <script src="../js/roles/roleGuard.js"></script>
+  <script>
+    requireAuth();
+    requirePermission("staff_management");
+  </script>
+
+  <script src="../js/data/staffs.js"></script>
+  
+
+</body>
+</html>
