@@ -17,10 +17,8 @@
 const STAFF_ENDPOINT  = "../data/staffs.json"; // GET (mock API)
 const STAFF_CACHE_KEY = "hotelms_staffs";       // mock DB cache
 
-// ========================================
-// GET /staffs
-// ========================================
 
+// GET /staffs
 async function getStaffs() {
 
   // Return cached/mock-DB copy if it exists

@@ -16,10 +16,8 @@ const statsRow     = document.getElementById("statsRow");
 let allStaffs    = [];
 let editStaffId  = null;
 
-// ========================================
-// Toast Notifications
-// ========================================
 
+// Toast Notifications
 const toast     = document.getElementById("toast");
 const toastIcon = document.getElementById("toastIcon");
 const toastText = document.getElementById("toastText");
@@ -47,10 +45,7 @@ function showToast(message, type = "success") {
 
 }
 
-// ========================================
 // Modal Helpers
-// ========================================
-
 function openModal(id) {
   const modal = document.getElementById(id);
   modal.classList.remove("hidden");
@@ -78,10 +73,7 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-// ========================================
 // Inline Message Helper (for modal forms)
-// ========================================
-
 function showInlineError(el, text) {
   el.querySelector("span").textContent = text;
   el.classList.remove("hidden");
@@ -93,10 +85,7 @@ function hideInlineError(el) {
   el.classList.remove("flex");
 }
 
-// ========================================
 // Stats
-// ========================================
-
 function renderStats(staffs) {
 
   const total    = staffs.length;
@@ -125,10 +114,8 @@ function renderStats(staffs) {
 
 }
 
-// ========================================
-// Role Label Helper
-// ========================================
 
+// Role Label Helper
 const roleLabels = {
   admin:           "Admin",
   manager:         "Manager",
@@ -141,10 +128,8 @@ function initials(name) {
   return name.split(" ").map(n => n[0]).slice(0, 2).join("").toUpperCase();
 }
 
-// ========================================
-// Render Table
-// ========================================
 
+// Render Table
 function renderStaffs(staffList) {
 
   tableBody.innerHTML = "";
@@ -239,10 +224,8 @@ function renderStaffs(staffList) {
 
 }
 
-// ========================================
-// Filter Logic
-// ========================================
 
+// Filter Logic
 function getFilteredStaffs() {
 
   const term   = searchInput.value.toLowerCase().trim();
@@ -274,10 +257,8 @@ searchInput.addEventListener("input",  applyFilters);
 roleFilter.addEventListener("change",  applyFilters);
 statusFilter.addEventListener("change", applyFilters);
 
-// ========================================
-// Toggle Status (PUT /staffs/:id)
-// ========================================
 
+// Toggle Status (PUT /staffs/:id)
 async function toggleStatus(staffId) {
 
   const staff = allStaffs.find(s => s.id === staffId);
@@ -299,10 +280,7 @@ async function toggleStatus(staffId) {
 
 }
 
-// ========================================
 // Add Staff Modal
-// ========================================
-
 const addStaffForm   = document.getElementById("addStaffForm");
 const addErrorMessage = document.getElementById("addErrorMessage");
 
@@ -377,10 +355,7 @@ addStaffForm.addEventListener("submit", async (e) => {
 
 });
 
-// ========================================
 // Edit Staff Modal
-// ========================================
-
 const editStaffForm   = document.getElementById("editStaffForm");
 const editErrorMessage = document.getElementById("editErrorMessage");
 
@@ -461,10 +436,7 @@ editStaffForm.addEventListener("submit", async (e) => {
 
 });
 
-// ========================================
 // DEV ONLY: Reset Demo Data Button
-// ========================================
-
 const resetDataBtn = document.getElementById("resetDataBtn");
 
 resetDataBtn.addEventListener("click", async () => {
@@ -486,10 +458,8 @@ resetDataBtn.addEventListener("click", async () => {
 
 });
 
-// ========================================
-// Init (GET /staffs)
-// ========================================
 
+// Init (GET /staffs)
 async function init() {
 
   allStaffs = await getStaffs();

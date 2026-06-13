@@ -1,8 +1,5 @@
-// ========================================
-// HotelMS Access Control
-// accessControl.js
-// ========================================
 
+// HotelMS Access Control accessControl.js
 function showElement(elementId) {
 
   const el = document.getElementById(elementId);

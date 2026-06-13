@@ -17,10 +17,8 @@
 const SESSION_KEY = "hotelms_user";
 const _BASE = typeof AUTH_BASE !== "undefined" ? AUTH_BASE : "";
 
-// ========================================
-// Read Session
-// ========================================
 
+// Read Session
 function getCurrentUser() {
 
   const stored =
@@ -35,10 +33,8 @@ function isAuthenticated() {
   return getCurrentUser() !== null;
 }
 
-// ========================================
-// Create Session
-// ========================================
 
+// Create Session
 function createSession(user, rememberMe = false) {
 
   clearSession();
@@ -49,28 +45,22 @@ function createSession(user, rememberMe = false) {
 
 }
 
-// ========================================
-// Clear Session
-// ========================================
 
+// Clear Session
 function clearSession() {
   localStorage.removeItem(SESSION_KEY);
   sessionStorage.removeItem(SESSION_KEY);
 }
 
-// ========================================
-// Logout
-// ========================================
 
+// Logout
 function logout() {
   clearSession();
   window.location.href = _BASE + "login.html";
 }
 
-// ========================================
-// Route Guards
-// ========================================
 
+// Route Guard
 function requireAuth() {
 
   if (!isAuthenticated()) {

@@ -1,8 +1,5 @@
-// ========================================
-// HotelMS Role Permissions
-// permissions.js
-// ========================================
 
+// HotelMS Role Permissions permissions.js
 const permissions = {
 
     admin: [

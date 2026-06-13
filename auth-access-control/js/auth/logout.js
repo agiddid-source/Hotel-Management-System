@@ -9,12 +9,9 @@ const confirmText      = document.getElementById("confirmText");
 const confirmLogoutBtn = document.getElementById("confirmLogoutBtn");
 const cancelLogoutBtn  = document.getElementById("cancelLogoutBtn");
 
-// ========================================
+
 // Guard: nothing to log out of
-// ========================================
-
 if (!isAuthenticated()) {
-
   confirmText.textContent = "You're not currently signed in.";
   confirmLogoutBtn.classList.add("hidden");
   cancelLogoutBtn.textContent = "Go to Login";
@@ -24,10 +21,7 @@ if (!isAuthenticated()) {
 
 }
 
-// ========================================
 // Cancel: go back to where the user came from
-// ========================================
-
 cancelLogoutBtn.addEventListener("click", () => {
 
   if (document.referrer && !document.referrer.includes("logout.html")) {
@@ -38,10 +32,8 @@ cancelLogoutBtn.addEventListener("click", () => {
 
 });
 
-// ========================================
-// Confirm: clear session and show logged-out state
-// ========================================
 
+// Confirm: clear session and show logged-out state
 confirmLogoutBtn.addEventListener("click", () => {
 
   clearSession();
