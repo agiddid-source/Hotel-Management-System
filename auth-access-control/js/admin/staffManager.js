@@ -45,6 +45,20 @@ function showToast(message, type = "success") {
 
 }
 
+// Loader Toast
+function showLoader(message = "Saving...") {
+  toast.className =
+    `flex fixed bottom-6 right-6 z-[60] items-center gap-3 px-5 py-4 rounded-xl shadow-lg text-sm font-medium max-w-sm bg-surface text-text border border-border`;
+  toastIcon.className = "fa-solid fa-spinner fa-spin text-base text-secondary";
+  toastText.textContent = message;
+  clearTimeout(toast._timeout);
+}
+
+function simulateDelay() {
+  const ms = Math.floor(Math.random() * 2000) + 1000; // 1000–3000ms
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 // Modal Helpers
 function openModal(id) {
   const modal = document.getElementById(id);
@@ -344,6 +358,9 @@ addStaffForm.addEventListener("submit", async (e) => {
 
   allStaffs.push(newStaff);
 
+  showLoader("Creating staff account...");
+  await simulateDelay();
+
   // POST /staffs (simulated)
   await saveStaffs(allStaffs);
 
@@ -425,6 +442,9 @@ editStaffForm.addEventListener("submit", async (e) => {
   currentStaff.email  = updatedEmail;
   currentStaff.role   = updatedRole;
   currentStaff.status = updatedStatus;
+
+  showLoader("Saving changes...");
+  await simulateDelay();
 
   await saveStaffs(allStaffs);
 
