@@ -1,0 +1,30 @@
+[
+  {
+    "id": "new-reservation",
+    "label": "New Reservation",
+    "description": "Create a new guest reservation",
+    "icon": "plus-circle",
+    "color": "blue"
+  },
+  {
+    "id": "check-in",
+    "label": "Check In Guest",
+    "description": "Process guest arrival",
+    "icon": "arrow-right-circle",
+    "color": "green"
+  },
+  {
+    "id": "check-out",
+    "label": "Check Out Guest",
+    "description": "Process guest departure",
+    "icon": "arrow-left-circle",
+    "color": "amber"
+  },
+  {
+    "id": "add-room",
+    "label": "Add Room",
+    "description": "Register a new room",
+    "icon": "plus-square",
+    "color": "purple"
+  }
+]
