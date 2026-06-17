@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Guest Details · HotelMS</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"/>
+</head><body>
+<div id="app"></div>
+<script src="data.js"></script><script src="app.js"></script>
+<script>
+const params=new URLSearchParams(location.search);
+const id=params.get('id');
+let editMode=params.get('edit')==='1';
+
+const skeleton = `
+  <div class="card p-6 mb-6"><div class="skeleton h-6 w-1/3"></div><div class="skeleton skel-line w-1/2 mt-3"></div></div>
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="lg:col-span-2 card p-6"><div class="skeleton skel-line w-1/4"></div>${'<div class="skeleton skel-line w-full mt-3"></div>'.repeat(6)}</div>
+    <div class="card p-6"><div class="skeleton skel-line w-1/3"></div>${'<div class="skeleton skel-line w-full mt-3"></div>'.repeat(4)}</div>
+  </div>`;
+
+HMSUI.mount('guests','Guest profile','',`<a href="guests.html" class="btn btn-ghost mb-4">${HMSUI.icon('arrowLeft','w-4 h-4')}Back to guests</a><div id="content">${skeleton}</div>`);
+
+setTimeout(render,650);
+
+function render(){
+  const guests=HMS.getGuests();
+  const g=guests.find(x=>x.id===id);
+  const content=document.getElementById('content');
+  if(!g){ content.innerHTML=`<div class="card p-12 text-center text-[#7A7A7A]">Guest not found.</div>`; return;}
+  const initials=g.name.split(' ').map(s=>s[0]).slice(0,2).join('');
+  const paid = HMS.getPayments().filter(p=>p.guestId===g.id);
+  const balance = paid.reduce((s,p)=>s+(p.amount-p.paid),0);
+
+  const view = `
+    <div class="card p-6 mb-6 flex flex-col md:flex-row md:items-center gap-4">
+      <div class="w-16 h-16 rounded-full bg-[#F3F4F6] text-[#4A90E2] flex items-center justify-center text-xl font-display font-bold">${initials}</div>
+      <div class="flex-1">
+        <div class="flex items-center gap-2 flex-wrap">
+          <h2 class="font-display text-2xl font-bold">${g.name}</h2>
+          ${g.vip?'<span class="pill pill-orange">VIP guest</span>':''}
+          ${HMSUI.statusPill(g.status)}
+        </div>
+        <div class="text-[13px] text-[#7A7A7A] mt-1">Guest ID ${g.id} · ${g.stays} previous ${g.stays===1?'stay':'stays'} · Lifetime value ${HMS.money(g.lifetimeValue)}</div>
+      </div>
+      <div class="flex gap-2 flex-wrap">
+        <button class="btn btn-outline" onclick="toggleEdit()">${HMSUI.icon('edit','w-4 h-4')}Update info</button>
+        ${g.status==='Reserved'?`<button class="btn btn-primary" onclick="setStatus('Checked-in')">${HMSUI.icon('check','w-4 h-4')}Check-in</button>`:''}
+        ${g.status==='Checked-in'?`<button class="btn btn-secondary" onclick="setStatus('Checked-out')">${HMSUI.icon('logout','w-4 h-4')}Check-out</button>`:''}
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div class="lg:col-span-2 space-y-6">
+        <div class="card p-6">
+          <h3 class="font-display font-bold mb-4">Personal information</h3>
+          <dl class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-[14px]">
+            ${field('Email',g.email)}${field('Phone',g.phone)}
+            ${field('Address',g.address)}${field('Current room',g.room||'—')}
+            ${field('Check-in',HMS.fmtDate(g.checkIn))}${field('Check-out',HMS.fmtDate(g.checkOut))}
+          </dl>
+        </div>
+        <div class="card p-6">
+          <h3 class="font-display font-bold mb-4">Booking history</h3>
+          ${g.history.length?`<div class="overflow-x-auto"><table class="table"><thead><tr><th>Booking</th><th>Room</th><th>Dates</th><th class="text-right">Amount</th></tr></thead><tbody>${g.history.map(h=>`<tr><td class="font-medium">${h.id}</td><td>${h.room}</td><td class="text-[#4D4D4D]">${HMS.fmtDate(h.in)} → ${HMS.fmtDate(h.out)}</td><td class="text-right font-semibold">${HMS.money(h.amount)}</td></tr>`).join('')}</tbody></table></div>`:`<p class="text-[13px] text-[#7A7A7A]">No prior stays — this is their first visit.</p>`}
+        </div>
+        <div class="card p-6">
+          <h3 class="font-display font-bold mb-2">Special requests & notes</h3>
+          ${g.requests.length?`<ul class="space-y-2 mb-3">${g.requests.map(r=>`<li class="flex gap-2 text-[14px]"><span class="text-[#4A90E2]">●</span>${r}</li>`).join('')}</ul>`:'<p class="text-[13px] text-[#7A7A7A] mb-3">No special requests on file.</p>'}
+          ${g.notes?`<div class="p-3 rounded-lg bg-[#FFFBEB] border border-[#FDE68A] text-[13px] text-[#78350F]"><strong>Staff note:</strong> ${g.notes}</div>`:''}
+        </div>
+      </div>
+      <div class="space-y-6">
+        <div class="card p-6">
+          <h3 class="font-display font-bold mb-3">Current stay</h3>
+          <div class="space-y-3 text-[14px]">
+            ${field('Room',g.room||'Not yet assigned')}
+            ${field('Status',g.status)}
+            ${field('Nights',nights(g.checkIn,g.checkOut))}
+          </div>
+        </div>
+        <div class="card p-6">
+          <h3 class="font-display font-bold mb-3">Payment status</h3>
+          <div class="text-[13px] text-[#7A7A7A]">Outstanding balance</div>
+          <div class="kpi-num ${balance>0?'text-[#B45309]':'text-[#047857]'}">${HMS.money(balance)}</div>
+          <div class="mt-3 text-[13px] text-[#4D4D4D]">${paid.length} ${paid.length===1?'payment':'payments'} on record</div>
+          <a href="payment-history.html?guest=${g.id}" class="btn btn-outline w-full mt-4">View payments</a>
+        </div>
+      </div>
+    </div>`;
+
+  const edit = `
+    <form class="card p-6" onsubmit="event.preventDefault();save('${g.id}')">
+      <h3 class="font-display text-lg font-bold mb-4">Update guest information</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        ${inp('Name','f-name',g.name)}${inp('Email','f-email',g.email,'email')}
+        ${inp('Phone','f-phone',g.phone)}${inp('Address','f-address',g.address)}
+        ${inp('Room','f-room',g.room||'')}
+        <div><label class="label">Status</label><select id="f-status" class="select">${['Checked-in','Checked-out','Reserved'].map(s=>`<option ${s===g.status?'selected':''}>${s}</option>`).join('')}</select></div>
+        ${inp('Check-in','f-in',g.checkIn,'date')}${inp('Check-out','f-out',g.checkOut,'date')}
+      </div>
+      <div><label class="label mt-4">Staff note</label><textarea id="f-notes" class="textarea" rows="3">${g.notes||''}</textarea></div>
+      <div class="flex gap-2 justify-end mt-5">
+        <button type="button" class="btn btn-outline" onclick="toggleEdit()">Cancel</button>
+        <button class="btn btn-primary">Save changes</button>
+      </div>
+    </form>`;
+
+  content.innerHTML = editMode? `<div id="alert"></div>${edit}` : view;
+}
+function field(l,v){return `<div><dt class="text-[12px] font-semibold uppercase tracking-wider text-[#7A7A7A]">${l}</dt><dd class="text-[14px] text-[#202020] mt-1">${v}</dd></div>`;}
+function inp(l,id,v,t='text'){return `<div><label class="label">${l}</label><input id="${id}" type="${t}" value="${v||''}" class="input"/></div>`;}
+function nights(a,b){if(!a||!b)return '—';const d=Math.round((new Date(b)-new Date(a))/864e5);return d+' night'+(d===1?'':'s');}
+function toggleEdit(){editMode=!editMode;render();}
+function setStatus(s){const all=HMS.getGuests();const i=all.findIndex(x=>x.id===id);all[i].status=s;HMS.saveGuests(all);render();}
+function save(id){
+  const all=HMS.getGuests();const i=all.findIndex(x=>x.id===id);
+  Object.assign(all[i],{
+    name:val('f-name'),email:val('f-email'),phone:val('f-phone'),address:val('f-address'),
+    room:val('f-room'),status:val('f-status'),checkIn:val('f-in'),checkOut:val('f-out'),notes:val('f-notes')
+  });
+  HMS.saveGuests(all); editMode=false; render();
+}
+function val(id){return document.getElementById(id).value;}
+</script>
+</body></html>

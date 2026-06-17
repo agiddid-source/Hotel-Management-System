@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Guest List · HotelMS</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"/>
+</head><body>
+<div id="app"></div>
+<script src="data.js"></script><script src="app.js"></script>
+<script>
+const actions = `<a href="add-guest.html" class="btn btn-primary">${HMSUI.icon('userPlus','w-4 h-4')}Add guest</a>`;
+
+const body = `
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6" id="kpis"></div>
+  <div class="card overflow-hidden">
+    <div class="p-4 flex flex-col md:flex-row gap-3 md:items-center border-b border-[#E8E8E8]">
+      <div class="relative flex-1 max-w-md">
+        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[#7A7A7A]">${HMSUI.icon('search','w-4 h-4')}</span>
+        <input id="search" class="input pl-9" placeholder="Search by name, room, phone or guest ID"/>
+      </div>
+      <select id="filter" class="select md:w-48">
+        <option value="">All statuses</option><option>Checked-in</option><option>Reserved</option><option>Checked-out</option>
+      </select>
+    </div>
+    <div class="overflow-x-auto"><div id="tableWrap"></div></div>
+  </div>`;
+HMSUI.mount('guests','Guest list','Your hotel\u2019s living guest database.',body,actions);
+
+const skeleton = ()=>{
+  let rows='';
+  for(let i=0;i<6;i++) rows += `<tr><td colspan="6"><div class="skeleton skel-line w-full"></div></td></tr>`;
+  return `<table class="table"><thead><tr><th>Guest</th><th>Room</th><th>Check-in</th><th>Check-out</th><th>Phone</th><th>Status</th><th></th></tr></thead><tbody>${rows}</tbody></table>`;
+};
+
+const wrap=document.getElementById('tableWrap');
+const kpisEl=document.getElementById('kpis');
+
+function renderKpis(){
+  const g=HMS.getGuests();
+  const k=(l,v,c)=>`<div class="card p-4"><div class="text-[11px] uppercase font-semibold tracking-wider text-[#7A7A7A]">${l}</div><div class="kpi-num mt-1 text-${c}">${v}</div></div>`;
+  kpisEl.innerHTML =
+    k('Total guests',g.length,'[#202020]')+
+    k('In-house',g.filter(x=>x.status==='Checked-in').length,'[#047857]')+
+    k('Reservations',g.filter(x=>x.status==='Reserved').length,'[#1D4ED8]')+
+    k('VIP',g.filter(x=>x.vip).length,'[#4A90E2]');
+}
+
+function rowHTML(g){
+  const initials=g.name.split(' ').map(s=>s[0]).slice(0,2).join('');
+  return `<tr class="cursor-pointer" onclick="location.href='guest-details.html?id=${g.id}'">
+    <td><div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-full bg-[#EFF6FF] text-[#4A90E2] flex items-center justify-center text-[12px] font-semibold">${initials}</div>
+      <div><div class="font-semibold text-[#202020]">${g.name} ${g.vip?'<span class="pill pill-orange ml-1">VIP</span>':''}</div>
+      <div class="text-[12px] text-[#7A7A7A]">${g.id} · ${g.email}</div></div></div></td>
+    <td class="font-medium">${g.room||'—'}</td>
+    <td class="text-[#4D4D4D]">${HMS.fmtDate(g.checkIn)}</td>
+    <td class="text-[#4D4D4D]">${HMS.fmtDate(g.checkOut)}</td>
+    <td class="text-[#4D4D4D]">${g.phone}</td>
+    <td>${HMSUI.statusPill(g.status)}</td>
+    <td onclick="event.stopPropagation()">
+      <div class="flex justify-end gap-1">
+        <a class="btn btn-ghost !px-2" title="View" href="guest-details.html?id=${g.id}">${HMSUI.icon('eye','w-4 h-4')}</a>
+        <a class="btn btn-ghost !px-2" title="Edit" href="guest-details.html?id=${g.id}&edit=1">${HMSUI.icon('edit','w-4 h-4')}</a>
+      </div>
+    </td></tr>`;
+}
+
+async function render(){
+  renderKpis();
+  await HMSUI.withSkeleton(wrap, skeleton(), async ()=>{
+    const q=document.getElementById('search').value.toLowerCase();
+    const f=document.getElementById('filter').value;
+    const list=HMS.getGuests().filter(g=>(!f||g.status===f) &&
+      (!q || (g.name+g.room+g.phone+g.id+g.email).toLowerCase().includes(q)));
+    if(!list.length) return `<div class="p-12 text-center text-[#7A7A7A]">No guests match your search.</div>`;
+    return `<table class="table"><thead><tr><th>Guest</th><th>Room</th><th>Check-in</th><th>Check-out</th><th>Phone</th><th>Status</th><th class="text-right">Actions</th></tr></thead><tbody>${list.map(rowHTML).join('')}</tbody></table>`;
+  });
+}
+document.getElementById('search').addEventListener('input',()=>render());
+document.getElementById('filter').addEventListener('change',()=>render());
+render();
+</script>
+</body></html>

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Add Inventory Item · HotelMS</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"/>
+</head><body>
+<div id="app"></div>
+<script src="data.js"></script><script src="app.js"></script>
+<script>
+const params=new URLSearchParams(location.search);
+const editId=params.get('id');
+const editing=editId?HMS.getInventory().find(i=>i.id===editId):null;
+
+const body = `
+  <a href="inventory.html" class="btn btn-ghost mb-4">${HMSUI.icon('arrowLeft','w-4 h-4')}Back to inventory</a>
+  <div class="max-w-3xl">
+    <form class="card p-6 space-y-4" onsubmit="event.preventDefault();save()">
+      <h2 class="font-display text-xl font-bold">${editing?'Edit item':'New inventory item'}</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div><label class="label">Item name *</label><input id="name" class="input" required value="${editing?.name||''}" placeholder="e.g. Bath Towels (White)"/></div>
+        <div><label class="label">Category *</label><select id="category" class="select" required>${['Linen','Toiletries','Beverages','Cleaning','Other'].map(c=>`<option ${editing&&editing.category===c?'selected':''}>${c}</option>`).join('')}</select></div>
+        <div><label class="label">Quantity *</label><input id="quantity" type="number" min="0" class="input" required value="${editing?.quantity??''}"/></div>
+        <div><label class="label">Reorder threshold *</label><input id="reorder" type="number" min="0" class="input" required value="${editing?.reorder??''}"/></div>
+        <div class="md:col-span-2"><label class="label">Supplier</label><input id="supplier" class="input" value="${editing?.supplier||''}" placeholder="Supplier name"/></div>
+      </div>
+      <div class="flex justify-end gap-2 pt-2">
+        <a href="inventory.html" class="btn btn-outline">Cancel</a>
+        <button class="btn btn-primary">${editing?'Save changes':'Add to inventory'}</button>
+      </div>
+    </form>
+  </div>`;
+HMSUI.mount('add-item', editing?'Edit inventory item':'Add inventory item', editing?'Update stock levels, supplier or reorder threshold.':'Add a new SKU to your inventory and set a reorder threshold.', body);
+
+function v(id){return document.getElementById(id).value;}
+function save(){
+  const all=HMS.getInventory();
+  if(editing){
+    const i=all.findIndex(x=>x.id===editing.id);
+    Object.assign(all[i],{name:v('name'),category:v('category'),quantity:+v('quantity'),reorder:+v('reorder'),supplier:v('supplier'),updated:new Date().toISOString().slice(0,10)});
+  } else {
+    const id='I-'+String(13+all.length).padStart(3,'0');
+    all.unshift({id,name:v('name'),category:v('category'),quantity:+v('quantity'),reorder:+v('reorder'),supplier:v('supplier'),updated:new Date().toISOString().slice(0,10)});
+  }
+  HMS.saveInventory(all);
+  location.href='inventory.html';
+}
+</script>
+</body></html>

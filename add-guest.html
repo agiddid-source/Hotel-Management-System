@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Add Guest · HotelMS</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"/>
+</head><body>
+<div id="app"></div>
+<script src="data.js"></script><script src="app.js"></script>
+<script>
+const body = `
+  <a href="guests.html" class="btn btn-ghost mb-4">${HMSUI.icon('arrowLeft','w-4 h-4')}Back to guests</a>
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <form id="form" class="lg:col-span-2 card p-6 space-y-4" onsubmit="event.preventDefault();submit()">
+      <h2 class="font-display text-xl font-bold">New guest record</h2>
+      <p class="text-[13px] text-[#7A7A7A] -mt-2">Creating a record adds this guest to your permanent database. Use it for first-time guests so future stays are quick to check in.</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        ${field('Full name','name','e.g. Amara Okafor',true)}
+        ${field('Email address','email','guest@email.com',true,'email')}
+        ${field('Phone number','phone','+234 …',true,'tel')}
+        ${field('Address','address','Street, City',false)}
+        ${field('Room assignment','room','e.g. 304 (optional for reservations)')}
+        ${selectField('Status','status',['Reserved','Checked-in'])}
+        ${field('Check-in date','checkIn','',true,'date')}
+        ${field('Check-out date','checkOut','',true,'date')}
+      </div>
+      <div><label class="label">Special requests</label><textarea id="requests" class="textarea" rows="2" placeholder="One per line — e.g. Late checkout, allergies, dietary"></textarea></div>
+      <div class="flex justify-end gap-2 pt-2">
+        <a href="guests.html" class="btn btn-outline">Cancel</a>
+        <button class="btn btn-primary">${HMSUI.icon('userPlus','w-4 h-4')}Save guest</button>
+      </div>
+    </form>
+  </div>
+  <div id="toast" class="hidden fixed bottom-6 right-6 bg-[#202020] text-white px-4 py-3 rounded-xl shadow-lg text-sm font-medium"></div>`;
+HMSUI.mount('add-guest','Add a new guest','Create a permanent profile to power faster check-ins and richer history.',body);
+
+function field(label,id,ph,req,t='text'){return `<div><label class="label">${label}${req?' *':''}</label><input id="${id}" type="${t}" class="input" placeholder="${ph||''}" ${req?'required':''}/></div>`;}
+function selectField(label,id,opts){return `<div><label class="label">${label}</label><select id="${id}" class="select">${opts.map(o=>`<option>${o}</option>`).join('')}</select></div>`;}
+function v(id){return document.getElementById(id).value.trim();}
+
+function submit(){
+  const guests=HMS.getGuests();
+  const id='G-'+(1050+guests.length);
+  guests.unshift({
+    id,name:v('name'),email:v('email'),phone:v('phone'),address:v('address'),
+    room:v('room'),status:v('status'),checkIn:v('checkIn'),checkOut:v('checkOut'),
+    vip:false,stays:0,lifetimeValue:0,notes:'',
+    requests:v('requests').split('\n').map(s=>s.trim()).filter(Boolean),history:[]
+  });
+  HMS.saveGuests(guests);
+  const t=document.getElementById('toast');
+  t.textContent='Guest '+id+' saved.';
+  t.classList.remove('hidden');
+  setTimeout(()=>location.href='guest-details.html?id='+id,900);
+}
+</script>
+</body></html>

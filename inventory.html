@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Inventory · HotelMS</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"/>
+</head><body>
+<div id="app"></div>
+<script src="data.js"></script><script src="app.js"></script>
+<script>
+const actions = `<a href="add-item.html" class="btn btn-primary">${HMSUI.icon('plus','w-4 h-4')}Add item</a>`;
+
+const body = `
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6" id="kpis"></div>
+  <div class="card overflow-hidden">
+    <div class="p-4 flex flex-col md:flex-row gap-3 md:items-center border-b border-[#E8E8E8]">
+      <div class="relative flex-1 max-w-md">
+        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[#7A7A7A]">${HMSUI.icon('search','w-4 h-4')}</span>
+        <input id="search" class="input pl-9" placeholder="Search items"/>
+      </div>
+      <select id="cat" class="select md:w-48"><option value="">All categories</option></select>
+      <select id="stat" class="select md:w-48"><option value="">All statuses</option><option>In Stock</option><option>Low Stock</option><option>Out of Stock</option></select>
+    </div>
+    <div class="overflow-x-auto" id="wrap"></div>
+  </div>`;
+HMSUI.mount('inventory','Inventory','Track linen, toiletries, beverages and cleaning supplies across the property.',body,actions);
+
+function statusOf(i){return i.quantity===0?'Out of Stock':(i.quantity<=i.reorder?'Low Stock':'In Stock');}
+
+function kpis(){
+  const inv=HMS.getInventory();
+  const total=inv.reduce((s,i)=>s+i.quantity,0);
+  const low=inv.filter(i=>i.quantity>0 && i.quantity<=i.reorder).length;
+  const out=inv.filter(i=>i.quantity===0).length;
+  const k=(label,val,sub,color,iconName)=>`<div class="card p-5 flex items-center gap-4">
+    <div class="icon-tile" style="background:${color.bg};color:${color.fg}">${HMSUI.icon(iconName)}</div>
+    <div><div class="text-[11px] uppercase font-semibold tracking-wider text-[#7A7A7A]">${label}</div><div class="kpi-num">${val}</div><div class="text-[12px] text-[#7A7A7A]">${sub}</div></div></div>`;
+  document.getElementById('kpis').innerHTML =
+    k('Total items',inv.length,total.toLocaleString()+' units on hand',{bg:'#EFF6FF',fg:'#4A90E2'},'box')+
+    k('Low stock',low,'Below reorder threshold',{bg:'#FFFBEB',fg:'#B45309'},'bell')+
+    k('Out of stock',out,'Reorder immediately',{bg:'#FEF2F2',fg:'#B91C1C'},'bell');
+
+  const cats=[...new Set(HMS.getInventory().map(i=>i.category))];
+  const sel=document.getElementById('cat');
+  if(sel.options.length===1) cats.forEach(c=>{const o=document.createElement('option');o.text=c;sel.add(o);});
+}
+
+const skeleton = ()=>{ let r=''; for(let i=0;i<6;i++) r+=`<tr><td colspan="6"><div class="skeleton skel-line"></div></td></tr>`;
+  return `<table class="table"><thead><tr><th>Item</th><th>Category</th><th>Qty</th><th>Reorder</th><th>Status</th><th></th></tr></thead><tbody>${r}</tbody></table>`;
+};
+
+async function render(){
+  kpis();
+  await HMSUI.withSkeleton(document.getElementById('wrap'), skeleton(), async ()=>{
+    const q=document.getElementById('search').value.toLowerCase();
+    const c=document.getElementById('cat').value;
+    const s=document.getElementById('stat').value;
+    const list=HMS.getInventory().filter(i=>(!c||i.category===c)&&(!s||statusOf(i)===s)&&(!q||(i.name+i.category+i.supplier).toLowerCase().includes(q)));
+    if(!list.length) return `<div class="p-12 text-center text-[#7A7A7A]">No items found.</div>`;
+    return `<table class="table"><thead><tr><th>Item</th><th>Category</th><th>Qty available</th><th>Reorder level</th><th>Status</th><th class="text-right">Actions</th></tr></thead><tbody>${list.map(i=>{
+      const st=statusOf(i);
+      const pct=Math.min(100, Math.round((i.quantity/(i.reorder*2||1))*100));
+      const barColor= st==='Out of Stock'?'#B91C1C':(st==='Low Stock'?'#B45309':'#047857');
+      return `<tr class="cursor-pointer" onclick="location.href='item-details.html?id=${i.id}'">
+        <td><div class="font-semibold">${i.name}</div><div class="text-[12px] text-[#7A7A7A]">${i.id} · ${i.supplier}</div></td>
+        <td><span class="pill pill-gray">${i.category}</span></td>
+        <td><div class="font-semibold">${i.quantity}</div><div class="w-32 h-1.5 rounded-full bg-[#F0F0F0] mt-1.5 overflow-hidden"><div style="width:${pct}%;background:${barColor};height:100%"></div></div></td>
+        <td class="text-[#4D4D4D]">${i.reorder}</td>
+        <td>${HMSUI.statusPill(st)}</td>
+        <td onclick="event.stopPropagation()" class="text-right"><div class="inline-flex gap-1">
+          <a class="btn btn-ghost !px-2" href="item-details.html?id=${i.id}">${HMSUI.icon('eye','w-4 h-4')}</a>
+          <a class="btn btn-ghost !px-2" href="add-item.html?id=${i.id}">${HMSUI.icon('edit','w-4 h-4')}</a>
+          <button class="btn btn-ghost !px-2" onclick="del('${i.id}')" title="Delete">🗑️</button>
+        </div></td></tr>`;
+    }).join('')}</tbody></table>`;
+  });
+}
+
+function del(id){
+  if(!confirm('Delete this inventory item?')) return;
+  const all=HMS.getInventory().filter(i=>i.id!==id);
+  HMS.saveInventory(all); render();
+}
+window.del=del;
+['search','cat','stat'].forEach(id=>document.getElementById(id).addEventListener('input',render));
+render();
+</script>
+</body></html>

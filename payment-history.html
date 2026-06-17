@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Payment History · HotelMS</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"/>
+</head><body>
+<div id="app"></div>
+<script src="data.js"></script><script src="app.js"></script>
+<script>
+const guestFilter=new URLSearchParams(location.search).get('guest');
+const body=`
+  <div class="card overflow-hidden">
+    <div class="p-4 flex flex-col md:flex-row gap-3 md:items-center border-b border-[#E8E8E8]">
+      <div class="relative flex-1 max-w-md">
+        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-[#7A7A7A]">${HMSUI.icon('search','w-4 h-4')}</span>
+        <input id="search" class="input pl-9" placeholder="Search guest, payment ID or room" value="${guestFilter||''}"/>
+      </div>
+      <select id="stat" class="select md:w-48"><option value="">All statuses</option><option>Completed</option><option>Pending</option><option>Refunded</option></select>
+      <select id="method" class="select md:w-48"><option value="">All methods</option><option>Card</option><option>Bank Transfer</option><option>Cash</option></select>
+    </div>
+    <div id="wrap" class="overflow-x-auto"></div>
+  </div>
+  <div class="modal-backdrop" id="receipt"><div class="modal" id="receiptBody"></div></div>`;
+HMSUI.mount('history','Payment history','Every payment recorded — view receipts or process refunds.',body);
+
+const skel=()=>{let r='';for(let i=0;i<6;i++)r+=`<tr><td colspan="6"><div class="skeleton skel-line"></div></td></tr>`;return `<table class="table"><thead><tr><th>Guest</th><th>Amount</th><th>Date</th><th>Method</th><th>Status</th><th></th></tr></thead><tbody>${r}</tbody></table>`;};
+
+async function render(){
+  await HMSUI.withSkeleton(document.getElementById('wrap'), skel(), async ()=>{
+    const q=document.getElementById('search').value.toLowerCase();
+    const s=document.getElementById('stat').value;
+    const m=document.getElementById('method').value;
+    const list=HMS.getPayments().filter(p=>(!s||p.status===s)&&(!m||p.method===m)&&(!q||(p.guest+p.id+p.room).toLowerCase().includes(q)));
+    if(!list.length) return `<div class="p-12 text-center text-[#7A7A7A]">No payments match.</div>`;
+    return `<table class="table"><thead><tr><th>Guest</th><th>Amount</th><th>Date</th><th>Method</th><th>Status</th><th class="text-right">Actions</th></tr></thead><tbody>${list.map(p=>{
+      const bal=p.amount-p.paid;
+      return `<tr class="cursor-pointer" onclick="location.href='/payment-details.html?id=${p.id}'">
+        <td><div class="font-semibold">${p.guest}</div><div class="text-[12px] text-[#7A7A7A]">${p.id} · Room ${p.room}</div></td>
+        <td><div class="font-semibold">${HMS.money(p.amount)}</div>${bal>0?`<div class="text-[12px] text-[#B45309]">${HMS.money(bal)} balance</div>`:''}</td>
+        <td class="text-[#4D4D4D]">${HMS.fmtDate(p.date)}</td>
+        <td>${p.method}</td>
+        <td>${HMSUI.statusPill(p.status)}</td>
+        <td onclick="event.stopPropagation()" class="text-right"><div class="inline-flex gap-1">
+          <button class="btn btn-ghost !px-2" title="View receipt" onclick="showReceipt('${p.id}')">${HMSUI.icon('receipt','w-4 h-4')}</button>
+          ${p.status==='Completed'?`<button class="btn btn-danger !py-1.5 !px-2 text-[12px]" onclick="refund('${p.id}')">Refund</button>`:''}
+        </div></td></tr>`;
+    }).join('')}</tbody></table>`;
+  });
+}
+
+function showReceipt(id){
+  const p=HMS.getPayments().find(x=>x.id===id);
+  document.getElementById('receiptBody').innerHTML=`
+    <div class="p-6 border-b border-[#E8E8E8] flex items-center justify-between">
+      <div><div class="text-[12px] text-[#7A7A7A] uppercase tracking-wider font-semibold">Receipt</div><div class="font-display text-xl font-bold">${p.id}</div></div>
+      <button class="btn btn-ghost !p-2" onclick="document.getElementById('receipt').classList.remove('open')">✕</button>
+    </div>
+    <div class="p-6 space-y-3 text-[14px]">
+      <div class="flex justify-between"><span class="text-[#7A7A7A]">Guest</span><span class="font-semibold">${p.guest}</span></div>
+      <div class="flex justify-between"><span class="text-[#7A7A7A]">Room</span><span>${p.room}</span></div>
+      <div class="flex justify-between"><span class="text-[#7A7A7A]">Date</span><span>${HMS.fmtDate(p.date)}</span></div>
+      <div class="flex justify-between"><span class="text-[#7A7A7A]">Method</span><span>${p.method}</span></div>
+      <div class="flex justify-between"><span class="text-[#7A7A7A]">Status</span>${HMSUI.statusPill(p.status)}</div>
+      <div class="divider my-3"></div>
+      <div class="flex justify-between"><span class="text-[#7A7A7A]">Total</span><span class="font-semibold">${HMS.money(p.amount)}</span></div>
+      <div class="flex justify-between"><span class="text-[#7A7A7A]">Paid</span><span class="font-semibold text-[#047857]">${HMS.money(p.paid)}</span></div>
+      <div class="flex justify-between"><span class="text-[#7A7A7A]">Balance</span><span class="font-semibold ${p.amount-p.paid>0?'text-[#B45309]':''}">${HMS.money(p.amount-p.paid)}</span></div>
+    </div>
+    <div class="p-6 pt-0 flex justify-end gap-2"><button class="btn btn-outline" onclick="window.print()">Print</button><a class="btn btn-primary" href="/payment-details.html?id=${p.id}">Open full record</a></div>`;
+  document.getElementById('receipt').classList.add('open');
+}
+function refund(id){
+  if(!confirm('Refund this payment? This will mark it as Refunded.')) return;
+  const all=HMS.getPayments();
+  const i=all.findIndex(p=>p.id===id); all[i].status='Refunded';
+  HMS.savePayments(all); render();
+}
+window.showReceipt=showReceipt; window.refund=refund;
+['search','stat','method'].forEach(id=>document.getElementById(id).addEventListener('input',render));
+render();
+</script>
+</body></html>

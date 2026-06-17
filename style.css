@@ -1,0 +1,67 @@
+/* HotelMS — Guest, Inventory, Payments */
+:root{
+  --mist:#EFEFEF; --paper:#FFFFFF; --orange:#4A90E2; --sky:#4A90E2;
+  --carbon:#202020; --graphite:#4D4D4D; --gray:#7A7A7A;
+  --chalk:#E8E8E8; --dark-border:#D0D0D0;
+}
+html,body{background:var(--mist);color:var(--carbon);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.font-display{font-family:'Outfit',sans-serif;letter-spacing:-0.01em}
+
+/* Sidebar link */
+.nav-link{display:flex;align-items:center;gap:.75rem;padding:.625rem .875rem;border-radius:.625rem;color:var(--graphite);font-weight:500;font-size:.875rem;transition:all .15s}
+.nav-link:hover{background:#F5F5F5;color:var(--carbon)}
+.nav-link.active{background:#F3F4F6;color:var(--orange)}
+.nav-link.active svg{color:var(--orange)}
+.nav-group-title{font-size:.6875rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gray);padding:0 .875rem;margin:1.25rem 0 .5rem}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.625rem 1rem;border-radius:.625rem;font-weight:600;font-size:.875rem;transition:all .15s;cursor:pointer;border:1px solid transparent;white-space:nowrap}
+.btn-primary{background:var(--orange);color:#fff}
+.btn-primary:hover{background:#3A7BC8}
+.btn-secondary{background:var(--sky);color:#fff}
+.btn-secondary:hover{background:#3A7BC8}
+.btn-outline{background:#fff;color:var(--carbon);border-color:var(--dark-border)}
+.btn-outline:hover{background:#FAFAFA;border-color:#B8B8B8}
+.btn-ghost{background:transparent;color:var(--graphite)}
+.btn-ghost:hover{background:#F0F0F0;color:var(--carbon)}
+.btn-danger{background:#fff;color:#B91C1C;border-color:#FECACA}
+.btn-danger:hover{background:#FEF2F2}
+
+/* Card */
+.card{background:var(--paper);border:1px solid var(--chalk);border-radius:.875rem}
+
+/* Status pills */
+.pill{display:inline-flex;align-items:center;gap:.375rem;padding:.25rem .625rem;border-radius:999px;font-size:.75rem;font-weight:600;border:1px solid transparent}
+.pill .dot{width:6px;height:6px;border-radius:999px;background:currentColor}
+.pill-green{background:#ECFDF5;color:#047857;border-color:#A7F3D0}
+.pill-amber{background:#FFFBEB;color:#B45309;border-color:#FDE68A}
+.pill-blue{background:#EFF6FF;color:#1D4ED8;border-color:#BFDBFE}
+.pill-gray{background:#F4F4F5;color:#52525B;border-color:#E4E4E7}
+.pill-red{background:#FEF2F2;color:#B91C1C;border-color:#FECACA}
+.pill-orange{background:#F3F4F6;color:#C2410C;border-color:#FED7AA}
+
+/* Inputs */
+.input,.select,.textarea{width:100%;padding:.625rem .875rem;border-radius:.625rem;border:1px solid var(--chalk);background:#fff;color:var(--carbon);font-size:.875rem;transition:border-color .15s, box-shadow .15s}
+.input:focus,.select:focus,.textarea:focus{outline:none;border-color:var(--sky);box-shadow:0 0 0 3px rgba(74,144,226,.15)}
+.label{display:block;font-size:.8125rem;font-weight:600;color:var(--graphite);margin-bottom:.375rem}
+
+/* Table */
+.table{width:100%;border-collapse:separate;border-spacing:0}
+.table thead th{text-align:left;font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--gray);padding:.875rem 1rem;background:#FAFAFA;border-bottom:1px solid var(--chalk)}
+.table tbody td{padding:1rem;border-bottom:1px solid var(--chalk);font-size:.875rem;color:var(--carbon)}
+.table tbody tr:last-child td{border-bottom:none}
+.table tbody tr:hover{background:#FAFAFA}
+
+/* Skeleton */
+.skeleton{background:linear-gradient(90deg,#ECECEC 0%,#F5F5F5 50%,#ECECEC 100%);background-size:200% 100%;animation:shimmer 1.4s ease-in-out infinite;border-radius:.5rem}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.skel-line{height:.875rem;margin:.4rem 0}
+
+/* Misc */
+.divider{height:1px;background:var(--chalk)}
+.icon-tile{width:40px;height:40px;border-radius:.625rem;display:flex;align-items:center;justify-content:center}
+.kpi-num{font-family:'Outfit',sans-serif;font-size:1.875rem;font-weight:700;color:var(--carbon);letter-spacing:-0.02em}
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:50;padding:1rem}
+.modal-backdrop.open{display:flex}
+.modal{background:#fff;border-radius:1rem;max-width:560px;width:100%;max-height:90vh;overflow-y:auto}
+@media (max-width:768px){.sidebar{position:fixed;left:-280px;top:0;height:100vh;transition:left .25s;z-index:40}.sidebar.open{left:0}}

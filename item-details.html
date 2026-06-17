@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Item Details · HotelMS</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"/>
+</head><body>
+<div id="app"></div>
+<script src="data.js"></script><script src="app.js"></script>
+<script>
+const id=new URLSearchParams(location.search).get('id');
+const skel = `<div class="card p-6"><div class="skeleton skel-line w-1/3"></div>${'<div class="skeleton skel-line"></div>'.repeat(5)}</div>`;
+HMSUI.mount('inventory','Item details','',`<a href="inventory.html" class="btn btn-ghost mb-4">${HMSUI.icon('arrowLeft','w-4 h-4')}Back to inventory</a><div id="c">${skel}</div>`);
+
+setTimeout(()=>{
+  const i=HMS.getInventory().find(x=>x.id===id);
+  const c=document.getElementById('c');
+  if(!i){c.innerHTML=`<div class="card p-12 text-center text-[#7A7A7A]">Item not found.</div>`;return;}
+  const st=i.quantity===0?'Out of Stock':(i.quantity<=i.reorder?'Low Stock':'In Stock');
+  c.innerHTML=`
+    <div class="card p-6 flex flex-col md:flex-row md:items-center gap-4 mb-6">
+      <div class="icon-tile !w-14 !h-14" style="background:#EFF6FF;color:#4A90E2">${HMSUI.icon('box','w-7 h-7')}</div>
+      <div class="flex-1"><h2 class="font-display text-2xl font-bold">${i.name}</h2>
+        <div class="text-[13px] text-[#7A7A7A] mt-1">${i.id} · ${i.category} · Supplier: ${i.supplier||'—'}</div></div>
+      <div class="flex gap-2">${HMSUI.statusPill(st)}<a href="add-item.html?id=${i.id}" class="btn btn-outline">${HMSUI.icon('edit','w-4 h-4')}Edit</a></div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="card p-5"><div class="text-[11px] uppercase font-semibold tracking-wider text-[#7A7A7A]">Quantity available</div><div class="kpi-num">${i.quantity}</div></div>
+      <div class="card p-5"><div class="text-[11px] uppercase font-semibold tracking-wider text-[#7A7A7A]">Reorder threshold</div><div class="kpi-num">${i.reorder}</div></div>
+      <div class="card p-5"><div class="text-[11px] uppercase font-semibold tracking-wider text-[#7A7A7A]">Last updated</div><div class="kpi-num text-[#4A90E2]">${HMS.fmtDate(i.updated)}</div></div>
+    </div>`;
+},550);
+</script>
+</body></html>

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Payment Details · HotelMS</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"/>
+</head><body>
+<div id="app"></div>
+<script src="data.js"></script><script src="app.js"></script>
+<script>
+const id=new URLSearchParams(location.search).get('id');
+const skel=`<div class="card p-6"><div class="skeleton skel-line w-1/3"></div>${'<div class="skeleton skel-line"></div>'.repeat(6)}</div>`;
+HMSUI.mount('history','Payment details','',`<a href="payment-history.html" class="btn btn-ghost mb-4">${HMSUI.icon('arrowLeft','w-4 h-4')}Back to history</a><div id="c">${skel}</div>`);
+
+setTimeout(()=>{
+  const p=HMS.getPayments().find(x=>x.id===id);
+  const c=document.getElementById('c');
+  if(!p){c.innerHTML=`<div class="card p-12 text-center text-[#7A7A7A]">Payment not found.</div>`;return;}
+  const g=HMS.getGuests().find(x=>x.id===p.guestId);
+  const bal=p.amount-p.paid;
+  c.innerHTML=`
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div class="lg:col-span-2 space-y-6">
+        <div class="card p-6">
+          <div class="flex items-center justify-between flex-wrap gap-3 mb-5">
+            <div><div class="text-[11px] uppercase font-semibold tracking-wider text-[#7A7A7A]">Payment</div><h2 class="font-display text-2xl font-bold">${p.id}</h2></div>
+            ${HMSUI.statusPill(p.status)}
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div><div class="text-[12px] text-[#7A7A7A]">Total amount</div><div class="kpi-num">${HMS.money(p.amount)}</div></div>
+            <div><div class="text-[12px] text-[#7A7A7A]">Amount paid</div><div class="kpi-num text-[#047857]">${HMS.money(p.paid)}</div></div>
+            <div><div class="text-[12px] text-[#7A7A7A]">Remaining balance</div><div class="kpi-num ${bal>0?'text-[#B45309]':''}">${HMS.money(bal)}</div></div>
+            <div><div class="text-[12px] text-[#7A7A7A]">Payment method</div><div class="font-semibold mt-1 text-lg">${p.method}</div></div>
+          </div>
+        </div>
+        <div class="card p-6">
+          <h3 class="font-display font-bold mb-4">Guest information</h3>
+          ${g?`<div class="flex items-center gap-4"><div class="w-12 h-12 rounded-full bg-[#EFF6FF] text-[#4A90E2] flex items-center justify-center font-semibold">${g.name.split(' ').map(s=>s[0]).slice(0,2).join('')}</div>
+            <div class="flex-1"><div class="font-semibold">${g.name}</div><div class="text-[13px] text-[#7A7A7A]">${g.email} · ${g.phone}</div></div>
+            <a class="btn btn-outline" href="/guest-details.html?id=${g.id}">View profile</a></div>`:`<p class="text-[13px] text-[#7A7A7A]">${p.guest}</p>`}
+        </div>
+        <div class="card p-6">
+          <h3 class="font-display font-bold mb-3">Room booked</h3>
+          <div class="flex items-center gap-3"><div class="icon-tile" style="background:#F3F4F6;color:#4A90E2">${HMSUI.icon('bed')}</div>
+            <div><div class="font-semibold">Room ${p.room}</div><div class="text-[13px] text-[#7A7A7A]">Recorded on ${HMS.fmtDate(p.date)}</div></div></div>
+        </div>
+      </div>
+      <aside class="space-y-4">
+        <div class="card p-6">
+          <h3 class="font-display font-bold mb-3">Actions</h3>
+          <div class="space-y-2">
+            <button class="btn btn-outline w-full" onclick="window.print()">${HMSUI.icon('receipt','w-4 h-4')}View / print receipt</button>
+            ${p.status==='Completed'?`<button class="btn btn-danger w-full" onclick="refund()">Refund payment</button>`:''}
+            ${bal>0?`<button class="btn btn-primary w-full" onclick="settle()">${HMSUI.icon('check','w-4 h-4')}Mark balance settled</button>`:''}
+          </div>
+        </div>
+        <div class="card p-6 bg-[#FAFAFA]">
+          <h3 class="font-display font-bold mb-2">Audit trail</h3>
+          <ul class="text-[13px] text-[#4D4D4D] space-y-2">
+            <li>● Payment created on ${HMS.fmtDate(p.date)}</li>
+            <li>● Method: ${p.method}</li>
+            <li>● Current status: <strong>${p.status}</strong></li>
+          </ul>
+        </div>
+      </aside>
+    </div>`;
+},500);
+
+function refund(){
+  if(!confirm('Refund this payment?')) return;
+  const all=HMS.getPayments();
+  const i=all.findIndex(p=>p.id===id); all[i].status='Refunded'; HMS.savePayments(all); location.reload();
+}
+function settle(){
+  const all=HMS.getPayments();
+  const i=all.findIndex(p=>p.id===id);
+  all[i].paid=all[i].amount; all[i].status='Completed';
+  HMS.savePayments(all); location.reload();
+}
+window.refund=refund; window.settle=settle;
+</script>
+</body></html>

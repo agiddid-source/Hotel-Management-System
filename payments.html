@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Payment Dashboard · HotelMS</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"/>
+</head><body>
+<div id="app"></div>
+<script src="data.js"></script><script src="app.js"></script>
+<script>
+const actions = `<a href="payment-history.html" class="btn btn-outline">${HMSUI.icon('receipt','w-4 h-4')}Full history</a>`;
+
+const body = `<div id="kpis" class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6"></div>
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="lg:col-span-2 card overflow-hidden">
+      <div class="px-6 py-4 border-b border-[#E8E8E8] flex items-center justify-between">
+        <div><h3 class="font-display font-bold">Recent payments</h3><p class="text-[13px] text-[#7A7A7A]">Latest activity across all guests</p></div>
+        <a href="payment-history.html" class="text-[13px] font-semibold text-[#4A90E2]">View all →</a>
+      </div>
+      <div id="recent" class="overflow-x-auto"></div>
+    </div>
+    <div class="card p-6">
+      <h3 class="font-display font-bold mb-3">Payment methods</h3>
+      <div id="methods" class="space-y-3"></div>
+    </div>
+  </div>`;
+HMSUI.mount('payments','Payment dashboard','Revenue, pending balances and method mix at a glance.',body,actions);
+
+function render(){
+  const p=HMS.getPayments();
+  const rev=p.filter(x=>x.status==='Completed').reduce((s,x)=>s+x.paid,0);
+  const pend=p.filter(x=>x.status==='Pending').reduce((s,x)=>s+(x.amount-x.paid),0);
+  const comp=p.filter(x=>x.status==='Completed').length;
+  const k=(l,v,s,c,bg,fg,icn)=>`<div class="card p-5 flex items-center gap-4"><div class="icon-tile" style="background:${bg};color:${fg}">${HMSUI.icon(icn)}</div><div><div class="text-[11px] uppercase font-semibold tracking-wider text-[#7A7A7A]">${l}</div><div class="kpi-num text-${c}">${v}</div><div class="text-[12px] text-[#7A7A7A]">${s}</div></div></div>`;
+  document.getElementById('kpis').innerHTML =
+    k('Total revenue',HMS.money(rev),'Across all completed payments','[#047857]','#ECFDF5','#047857','card')+
+    k('Pending payments',HMS.money(pend),p.filter(x=>x.status==='Pending').length+' awaiting completion','[#B45309]','#FFFBEB','#B45309','bell')+
+    k('Completed payments',comp,'Settled invoices','[#1D4ED8]','#EFF6FF','#4A90E2','check');
+
+  const recent=[...p].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,6);
+  document.getElementById('recent').innerHTML = `<table class="table"><thead><tr><th>Guest</th><th>Amount</th><th>Date</th><th>Method</th><th>Status</th></tr></thead><tbody>${recent.map(r=>`<tr class="cursor-pointer" onclick="location.href='payment-details.html?id=${r.id}'">
+    <td><div class="font-semibold">${r.guest}</div><div class="text-[12px] text-[#7A7A7A]">${r.id} · Room ${r.room}</div></td>
+    <td class="font-semibold">${HMS.money(r.amount)}</td>
+    <td class="text-[#4D4D4D]">${HMS.fmtDate(r.date)}</td>
+    <td>${r.method}</td>
+    <td>${HMSUI.statusPill(r.status)}</td></tr>`).join('')}</tbody></table>`;
+
+  const total=p.reduce((s,x)=>s+x.paid,0)||1;
+  const byMethod={};
+  p.forEach(x=>byMethod[x.method]=(byMethod[x.method]||0)+x.paid);
+  const colors={'Card':'#4A90E2','Bank Transfer':'#4A90E2','Cash':'#10B981'};
+  document.getElementById('methods').innerHTML = Object.entries(byMethod).map(([m,v])=>{
+    const pct=Math.round(v/total*100);
+    return `<div><div class="flex justify-between text-[13px] mb-1"><span class="font-medium">${m}</span><span class="text-[#7A7A7A]">${HMS.money(v)} · ${pct}%</span></div><div class="w-full h-2 rounded-full bg-[#F0F0F0] overflow-hidden"><div style="width:${pct}%;background:${colors[m]||'#7A7A7A'};height:100%"></div></div></div>`;
+  }).join('');
+}
+setTimeout(render,400);
+</script>
+</body></html>
