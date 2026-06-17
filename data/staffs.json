@@ -1,0 +1,37 @@
+[
+  {
+    "id": "STF-1",
+    "name": "System Admin",
+    "email": "admin@hotelms.com",
+    "role": "admin",
+    "status": "active"
+  },
+  {
+    "id": "STF-2",
+    "name": "Hotel Manager",
+    "email": "manager@hotelms.com",
+    "role": "manager",
+    "status": "active"
+  },
+  {
+    "id": "STF-3",
+    "name": "Front Desk Officer",
+    "email": "reception@hotelms.com",
+    "role": "receptionist",
+    "status": "active"
+  },
+  {
+    "id": "STF-4",
+    "name": "House Keeper",
+    "email": "housekeeping@hotelms.com",
+    "role": "housekeeper",
+    "status": "active"
+  },
+  {
+    "id": "STF-5",
+    "name": "Inventory Officer",
+    "email": "inventory@hotelms.com",
+    "role": "inventory_staff",
+    "status": "inactive"
+  }
+]
