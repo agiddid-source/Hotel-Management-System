@@ -44,14 +44,14 @@ const Dashboard = {
    * Inject dashboard-level actions into the page header.
    */
   setPageActions() {
-    const actionsEl = document.getElementById('page-actions');
+    const actionsEl = document.getElementById('ghst-page-actions');
     if (!actionsEl) return;
 
     actionsEl.innerHTML = `
-      <button class="btn-tactile inline-flex items-center gap-2 rounded-xl border border-outline bg-surface-elevated px-4 py-2.5 text-sm font-medium text-content-main transition-all min-h-[44px] hover:bg-surface-hover">
+      <button class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-content-main bg-surface-elevated border border-outline rounded-lg hover:bg-surface-hover transition-colors ghst-btn-tactile">
         Export
       </button>
-      <button onclick="Router.navigate('rooms')" class="btn-tactile inline-flex items-center gap-2 rounded-xl bg-brand px-4 py-2.5 text-sm font-medium text-white shadow-lg shadow-brand/20 transition-all min-h-[44px] hover:bg-brand-hover">
+      <button onclick="Router.navigate('rooms')" class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-brand hover:bg-brand-hover rounded-lg transition-colors shadow-sm shadow-brand/20 ghst-btn-tactile">
         New Reservation
       </button>
     `;
@@ -92,7 +92,7 @@ const Dashboard = {
    * Render the dashboard layout into #main-content.
    */
   render() {
-    const content = document.getElementById('main-content');
+    const content = document.getElementById('ghst-main-content');
     if (!content) return;
 
     content.innerHTML = `
@@ -148,7 +148,7 @@ const Dashboard = {
       const trendSign = kpi.trend?.direction === 'up' ? '+' : kpi.trend?.direction === 'down' ? '-' : '';
 
       return `
-        <div class="kpi-card rounded-2xl p-5 transition-all duration-300 ${cardClasses}" style="animation-delay: ${index * 80}ms">
+        <div class="bg-surface-card border border-outline rounded-xl p-5 hover:border-outline-hover transition-all duration-300 ghst-card-diffusion ghst-kpi-card relative overflow-hidden group" style="animation-delay: ${index * 80}ms">
           <div class="mb-5 flex items-center justify-between">
             <p class="text-sm font-medium ${labelColor}">${kpi.label}</p>
             <span class="text-lg ${labelColor}">${HMS.getIcon('moreVertical')}</span>
@@ -188,7 +188,7 @@ const Dashboard = {
           </div>
         </div>
         <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-surface-elevated">
-          <div class="occupancy-bar h-full rounded-full transition-all duration-1000 ease-out" style="background-color: ${cat.color}; width: 0%" data-width="${cat.percentage}%"></div>
+          <div class="h-full bg-brand rounded-full ghst-occupancy-bar transition-all duration-1000 ease-out relative overflow-hidden" data-width="${cat.percentage}%"></div>
         </div>
       </div>
     `).join('');
@@ -334,7 +334,7 @@ const Dashboard = {
         <td class="px-4 py-4">${HMS.getStatusBadge(res.status)}</td>
         <td class="px-4 py-4 text-sm font-semibold text-content-main">${res.amount}</td>
         <td class="px-4 py-4">
-          <button class="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg p-2 text-content-muted transition-colors hover:bg-surface-hover hover:text-content-main btn-tactile">
+          <button class="p-1.5 text-content-muted hover:text-content-main hover:bg-surface-hover rounded-md transition-colors ghst-btn-tactile">
             ${HMS.getIcon('moreVertical')}
           </button>
         </td>
@@ -342,13 +342,13 @@ const Dashboard = {
     `).join('');
 
     return `
-      <div class="overflow-hidden rounded-2xl border border-outline bg-surface-card card-diffusion">
+      <div class="overflow-hidden rounded-2xl border border-outline bg-surface-card ghst-card-diffusion">
         <div class="flex items-center justify-between gap-4 border-b border-outline px-6 py-5">
           <div>
             <h3 class="text-base font-semibold text-content-main">Recent Reservations</h3>
             <p class="mt-1 text-sm text-content-muted">${this.data.reservations.length} reservations</p>
           </div>
-          <button onclick="Router.navigate('rooms')" class="btn-tactile inline-flex min-h-[44px] items-center gap-2 rounded-lg px-2 py-2 text-sm font-medium text-brand transition-colors hover:text-brand-hover">
+          <button onclick="Router.navigate('rooms')" class="ghst-btn-tactile inline-flex min-h-[44px] items-center gap-2 rounded-lg px-2 py-2 text-sm font-medium text-brand transition-colors hover:text-brand-hover">
             View All →
           </button>
         </div>
@@ -388,19 +388,19 @@ const Dashboard = {
 
   animateCounters() {
     setTimeout(() => {
-      document.querySelectorAll('.occupancy-bar').forEach((bar) => {
+      document.querySelectorAll('.ghst-occupancy-bar').forEach(bar => {
         bar.style.width = bar.dataset.width;
       });
     }, 300);
 
-    document.querySelectorAll('.kpi-card').forEach((card, i) => {
+    document.querySelectorAll('.ghst-kpi-card').forEach((card, index) => {
       card.style.opacity = '0';
       card.style.transform = 'translateY(12px)';
       setTimeout(() => {
         card.style.opacity = '1';
         card.style.transform = 'translateY(0)';
         card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-      }, 100 + i * 80);
+      }, 100 + index * 80);
     });
   },
 };

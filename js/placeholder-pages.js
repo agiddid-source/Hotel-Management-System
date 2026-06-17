@@ -6,14 +6,14 @@ function createPlaceholderPage(config) {
     },
 
     setPageActions() {
-      const actionsEl = document.getElementById('page-actions');
+      const actionsEl = document.getElementById('ghst-page-actions');
       if (!actionsEl) return;
 
       actionsEl.innerHTML = '';
     },
 
     render() {
-      const content = document.getElementById('main-content');
+      const content = document.getElementById('ghst-main-content');
       if (!content) return;
 
       content.innerHTML = `

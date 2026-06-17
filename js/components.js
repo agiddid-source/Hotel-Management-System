@@ -45,6 +45,8 @@ const HMS = {
     x: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
     user: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
     moreVertical: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>',
+    edit: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>',
+    trash: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>',
   },
 
   // ============================================
@@ -109,7 +111,7 @@ const HMS = {
   createButton(text, variant = 'primary', opts = {}) {
     const { icon, size = 'md', disabled = false, id = '', fullWidth = false, onclick = '' } = opts;
     
-    const baseClasses = 'inline-flex items-center justify-center gap-2 font-medium transition-all duration-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface-bg btn-tactile';
+    const baseClasses = 'inline-flex items-center justify-center gap-2 font-medium transition-all duration-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface-bg ghst-btn-tactile';
     
     const sizeClasses = {
       sm: 'px-3 py-1.5 text-xs min-h-[44px]',
@@ -173,9 +175,9 @@ const HMS = {
     const { variant = 'standard', className = '', id = '' } = opts;
     
     const variantClasses = {
-      standard: 'bg-surface-card border border-outline card-diffusion',
-      elevated: 'bg-surface-elevated border border-outline card-diffusion',
-      kpi: 'bg-surface-card border border-outline hover:border-outline-hover transition-all duration-300 card-diffusion kpi-card',
+      standard: 'bg-surface-card border border-outline ghst-card-diffusion',
+      elevated: 'bg-surface-elevated border border-outline ghst-card-diffusion',
+      kpi: 'bg-surface-card border border-outline hover:border-outline-hover transition-all duration-300 ghst-card-diffusion ghst-kpi-card',
     };
     
     const idAttr = id ? `id="${id}"` : '';
@@ -192,17 +194,17 @@ const HMS = {
     let itemsHtml = items.map(item => {
       if (item.divider) return '<div class="border-t border-outline my-1"></div>';
       // Pass the event object to the onclick function to stop propagation
-      return `<button class="w-full text-left px-3 py-3 min-h-[44px] text-sm text-content-sec hover:text-content-main hover:bg-surface-hover rounded-md transition-colors duration-150" onclick="event.stopPropagation(); ${item.onclick || ''}">${item.icon ? `<span class="inline-flex mr-2">${this.getIcon(item.icon)}</span>` : ''}${item.label}</button>`;
+      return `<button class="w-full flex items-center gap-2 text-left px-3 py-3 min-h-[44px] text-sm text-content-sec hover:text-content-main hover:bg-surface-hover rounded-md transition-colors duration-150" onclick="event.stopPropagation(); ${item.onclick || ''}">${item.icon ? `<span class="flex-shrink-0">${this.getIcon(item.icon)}</span>` : ''}<span>${item.label}</span></button>`;
     }).join('');
     
     const chevron = hideChevron ? '' : this.getIcon('chevronDown');
     
     return `
       <div class="relative inline-block" id="${id}">
-        <button class="flex items-center gap-1.5 text-sm text-content-sec hover:text-content-main transition-colors btn-tactile min-h-[44px] px-2" onclick="event.stopPropagation(); HMS.toggleDropdown('${id}-menu')">
+        <button class="flex items-center gap-1.5 text-sm text-content-sec hover:text-content-main transition-colors ghst-btn-tactile min-h-[44px] px-2" onclick="event.stopPropagation(); HMS.toggleDropdown('${id}-menu')">
           ${triggerText}${chevron}
         </button>
-        <div id="${id}-menu" class="hidden absolute ${alignClass} mt-2 w-48 bg-surface-card border border-outline rounded-xl shadow-xl p-1 z-50 origin-top-right animate-scale-in-dropdown">
+        <div id="${id}-menu" class="hidden absolute ${alignClass} mt-2 w-48 bg-surface-card border border-outline rounded-xl shadow-xl p-1 z-50 origin-top-right ghst-animate-scale-in-dropdown">
           ${itemsHtml}
         </div>
       </div>`;
@@ -290,7 +292,7 @@ const HMS = {
 
       // Create dialog content
       dialogOverlay.innerHTML = `
-        <div class="relative bg-surface-card border border-outline rounded-xl shadow-xl w-full max-w-md p-6 card-diffusion">
+        <div class="relative bg-surface-card border border-outline rounded-xl shadow-xl w-full max-w-md p-6 ghst-card-diffusion">
           <div class="flex items-start gap-4 mb-4">
             <div class="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${styles.bgIcon}">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${styles.textIcon}">
@@ -306,10 +308,10 @@ const HMS = {
           </div>
           
           <div class="flex gap-3 justify-end pt-4">
-            <button class="dialog-cancel-btn px-4 py-2.5 text-sm font-medium bg-surface-elevated hover:bg-surface-hover text-content-main border border-outline rounded-lg transition-all min-h-[44px] btn-tactile">
+            <button class="ghst-dialog-cancel-btn px-4 py-2.5 text-sm font-medium bg-surface-elevated hover:bg-surface-hover text-content-main border border-outline rounded-lg transition-all min-h-[44px] ghst-btn-tactile">
               ${cancelText}
             </button>
-            <button class="dialog-confirm-btn px-4 py-2.5 text-sm font-medium bg-brand hover:bg-brand-hover text-white rounded-lg shadow-lg shadow-brand/20 transition-all min-h-[44px] btn-tactile">
+            <button class="ghst-dialog-confirm-btn px-4 py-2.5 text-sm font-medium bg-brand hover:bg-brand-hover text-white rounded-lg shadow-lg shadow-brand/20 transition-all min-h-[44px] ghst-btn-tactile">
               ${confirmText}
             </button>
           </div>
@@ -320,8 +322,8 @@ const HMS = {
       document.body.appendChild(dialogOverlay);
 
       // Event listeners
-      const confirmBtn = dialogOverlay.querySelector('.dialog-confirm-btn');
-      const cancelBtn = dialogOverlay.querySelector('.dialog-cancel-btn');
+      const confirmBtn = dialogOverlay.querySelector('.ghst-dialog-confirm-btn');
+      const cancelBtn = dialogOverlay.querySelector('.ghst-dialog-cancel-btn');
 
       const cleanup = () => {
         dialogOverlay.remove();
@@ -407,21 +409,21 @@ const HMS = {
     const styles = toastStyles[variant] || toastStyles.info;
 
     // Create toast container if it doesn't exist
-    let toastContainer = document.getElementById('toast-container');
+    let toastContainer = document.getElementById('ghst-toast-container');
     if (!toastContainer) {
       toastContainer = document.createElement('div');
-      toastContainer.id = 'toast-container';
+      toastContainer.id = 'ghst-toast-container';
       toastContainer.className = 'fixed top-6 right-6 z-[150] flex flex-col gap-3 pointer-events-none';
       document.body.appendChild(toastContainer);
     }
 
     // Create toast element
     const toastEl = document.createElement('div');
-    toastEl.className = `${styles.bg} ${styles.border} ${styles.text} border rounded-lg px-4 py-3 flex items-center gap-3 shadow-lg animate-slide-in-right pointer-events-auto min-h-[44px] backdrop-blur-sm`;
+    toastEl.className = `${styles.bg} ${styles.border} ${styles.text} border rounded-lg px-4 py-3 flex items-center gap-3 shadow-lg ghst-animate-slide-in-right pointer-events-auto min-h-[44px] backdrop-blur-sm`;
     toastEl.innerHTML = `
       <div class="flex-shrink-0">${styles.icon}</div>
       <div class="flex-1 text-sm font-medium">${message}</div>
-      <button class="toast-close flex-shrink-0 p-1 hover:opacity-75 transition-opacity">
+      <button class="ghst-toast-close flex-shrink-0 p-1 hover:opacity-75 transition-opacity">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     `;
@@ -429,10 +431,10 @@ const HMS = {
     toastContainer.appendChild(toastEl);
 
     // Close button handler
-    const closeBtn = toastEl.querySelector('.toast-close');
+    const closeBtn = toastEl.querySelector('.ghst-toast-close');
     const removeToast = () => {
-      toastEl.classList.remove('animate-slide-in-right');
-      toastEl.classList.add('animate-slide-out-right');
+      toastEl.classList.remove('ghst-animate-slide-in-right');
+      toastEl.classList.add('ghst-animate-slide-out-right');
       setTimeout(() => toastEl.remove(), 300);
     };
 

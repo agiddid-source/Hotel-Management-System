@@ -112,7 +112,7 @@ const Sidebar = {
    * Includes: Logo, Navigation Links, and User Profile.
    */
   render() {
-    const sidebar = document.getElementById('sidebar');
+    const sidebar = document.getElementById('ghst-sidebar');
     if (!sidebar) return;
 
     const sections = this.navConfig?.sections || this.fallbackNavConfig.sections;
@@ -121,13 +121,12 @@ const Sidebar = {
 
     const navHtml = sections.map((section, sectionIndex) => {
       const itemsHtml = section.items.map((item) => `
-        <a href="#${item.id}"
-           id="nav-${item.id}"
-           class="nav-item group flex items-center gap-3 rounded-xl px-4 py-3 min-h-[44px] text-sm font-medium text-content-sec transition-all duration-200 relative hover:bg-surface-hover hover:text-content-main"
+        <a href="#${item.id}" id="ghst-nav-${item.id}" 
+           class="ghst-nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 text-content-sec hover:bg-surface-hover hover:text-content-main group"
            data-page="${item.id}"
            data-source="${item.source || ''}"
            onclick="Router.navigate('${item.id}'); Sidebar.onNavClick(); return false;">
-          <span class="nav-icon flex-shrink-0 text-content-muted transition-colors duration-200 group-hover:text-content-sec">${HMS.getIcon(item.icon)}</span>
+          <span class="ghst-nav-icon flex-shrink-0 text-content-muted group-hover:text-content-sec transition-colors duration-200">${HMS.getIcon(item.icon)}</span>
           <span class="flex-1">${item.label}</span>
           ${item.badge ? `<span class="rounded-full border border-outline bg-surface-elevated px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-content-muted">${item.badge}</span>` : ''}
         </a>
@@ -159,12 +158,12 @@ const Sidebar = {
               <p class="text-[10px] font-medium text-content-muted uppercase tracking-[0.22em]">${brand.subtitle}</p>
             </div>
           </div>
-          <button id="sidebar-close" class="lg:hidden text-content-muted hover:text-content-main transition-colors p-2 min-w-[44px] min-h-[44px] flex items-center justify-center btn-tactile">${HMS.getIcon('x')}</button>
+          <button id="ghst-sidebar-close" class="md:hidden p-2 rounded-lg text-content-muted hover:bg-surface-hover hover:text-content-main transition-colors ghst-btn-tactile" aria-label="Close menu">${HMS.getIcon('x')}</button>
         </div>
       </div>
 
       <!-- Navigation Links -->
-      <nav class="flex-1 px-3 py-4 overflow-y-auto hide-scrollbar">
+      <nav class="flex-1 overflow-y-auto ghst-hide-scrollbar py-4 px-3 flex flex-col gap-1">
         ${navHtml}
       </nav>
 
@@ -194,11 +193,11 @@ const Sidebar = {
    */
   setActive(pageId) {
     // Step 1: Remove active state from ALL nav items
-    document.querySelectorAll('.nav-item').forEach(item => {
-      item.classList.remove('bg-brand', 'text-white', 'shadow-md', 'shadow-brand/20');
-      item.classList.add('text-content-sec');
+    document.querySelectorAll('.ghst-nav-item').forEach(el => {
+      el.classList.remove('bg-brand', 'text-white', 'shadow-md', 'shadow-brand/20');
+      el.classList.add('text-content-sec');
 
-      const icon = item.querySelector('.nav-icon');
+      const icon = el.querySelector('.ghst-nav-icon');
       if (icon) {
         icon.classList.remove('text-white');
         icon.classList.add('text-content-muted');
@@ -206,12 +205,12 @@ const Sidebar = {
     });
 
     // Step 2: Apply active state to the selected nav item
-    const active = document.getElementById(`nav-${pageId}`);
-    if (active) {
-      active.classList.remove('text-content-sec');
-      active.classList.add('bg-brand', 'text-white', 'shadow-md', 'shadow-brand/20');
+    const activeLink = document.getElementById(`ghst-nav-${pageId}`);
+    if (activeLink) {
+      activeLink.classList.remove('text-content-sec');
+      activeLink.classList.add('bg-brand', 'text-white', 'shadow-md', 'shadow-brand/20');
 
-      const icon = active.querySelector('.nav-icon');
+      const icon = activeLink.querySelector('.ghst-nav-icon');
       if (icon) {
         icon.classList.remove('text-content-muted', 'group-hover:text-content-sec');
         icon.classList.add('text-white');
@@ -244,8 +243,8 @@ const Sidebar = {
    */
   open() {
     this.isOpen = true;
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('sidebar-overlay');
+    const sidebar = document.getElementById('ghst-sidebar');
+    const overlay = document.getElementById('ghst-sidebar-overlay');
 
     if (sidebar) {
       sidebar.classList.remove('-translate-x-full');
@@ -263,8 +262,8 @@ const Sidebar = {
    */
   close() {
     this.isOpen = false;
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('sidebar-overlay');
+    const sidebar = document.getElementById('ghst-sidebar');
+    const overlay = document.getElementById('ghst-sidebar-overlay');
 
     if (sidebar) {
       sidebar.classList.remove('translate-x-0');
@@ -287,19 +286,19 @@ const Sidebar = {
    */
   bindEvents() {
     // Mobile hamburger menu button
-    const menuBtn = document.getElementById('menu-toggle');
-    if (menuBtn) {
-      menuBtn.addEventListener('click', () => this.open());
+    const toggleBtn = document.getElementById('ghst-menu-toggle');
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', () => this.open());
     }
     
     // Close button inside the sidebar
-    const closeBtn = document.getElementById('sidebar-close');
+    const closeBtn = document.getElementById('ghst-sidebar-close');
     if (closeBtn) {
       closeBtn.addEventListener('click', () => this.close());
     }
     
     // Clicking the dark overlay closes the sidebar
-    const overlay = document.getElementById('sidebar-overlay');
+    const overlay = document.getElementById('ghst-sidebar-overlay');
     if (overlay) {
       overlay.addEventListener('click', () => this.close());
     }
@@ -309,16 +308,16 @@ const Sidebar = {
     // - Mobile: hide sidebar if not explicitly opened
     window.addEventListener('resize', () => {
       if (window.innerWidth >= 1024) {
-        const sidebar = document.getElementById('sidebar');
+        const sidebar = document.getElementById('ghst-sidebar');
         if (sidebar) {
           sidebar.classList.remove('-translate-x-full');
           sidebar.classList.add('translate-x-0');
         }
-        const overlay = document.getElementById('sidebar-overlay');
+        const overlay = document.getElementById('ghst-sidebar-overlay');
         if (overlay) overlay.classList.add('hidden');
         document.body.classList.remove('overflow-hidden');
       } else if (!this.isOpen) {
-        const sidebar = document.getElementById('sidebar');
+        const sidebar = document.getElementById('ghst-sidebar');
         if (sidebar) {
           sidebar.classList.remove('translate-x-0');
           sidebar.classList.add('-translate-x-full');

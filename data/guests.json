@@ -8,7 +8,7 @@
     "idType": "Passport",
     "idNumber": "FX482917",
     "totalStays": 3,
-    "totalSpent": "$2,790",
+    "totalSpent": "₦1,395,000",
     "status": "checked-in",
     "lastVisit": "2026-06-08T14:30:00",
     "notes": "Prefers ground floor rooms. Allergic to feather pillows."
@@ -22,7 +22,7 @@
     "idType": "Passport",
     "idNumber": "A23847561",
     "totalStays": 7,
-    "totalSpent": "$8,340",
+    "totalSpent": "₦4,170,000",
     "status": "checked-in",
     "lastVisit": "2026-06-07T16:00:00",
     "notes": "VIP loyalty member. Requests extra towels."
@@ -36,7 +36,7 @@
     "idType": "National ID",
     "idNumber": "SE199003154721",
     "totalStays": 2,
-    "totalSpent": "$1,650",
+    "totalSpent": "₦825,000",
     "status": "checked-in",
     "lastVisit": "2026-06-08T12:15:00",
     "notes": ""
@@ -50,7 +50,7 @@
     "idType": "Passport",
     "idNumber": "TK8291034",
     "totalStays": 5,
-    "totalSpent": "$5,480",
+    "totalSpent": "₦2,740,000",
     "status": "reserved",
     "lastVisit": "2026-03-20T11:00:00",
     "notes": "Returning guest. Prefers Japanese-style breakfast."
@@ -64,7 +64,7 @@
     "idType": "Passport",
     "idNumber": "RU7461829",
     "totalStays": 12,
-    "totalSpent": "$18,920",
+    "totalSpent": "₦9,460,000",
     "status": "checked-in",
     "lastVisit": "2026-06-06T15:30:00",
     "notes": "Long-term business traveler. Corporate rate applied."
@@ -78,7 +78,7 @@
     "idType": "National ID",
     "idNumber": "FR9182736450",
     "totalStays": 18,
-    "totalSpent": "$32,150",
+    "totalSpent": "₦16,075,000",
     "status": "vip",
     "lastVisit": "2026-06-07T10:00:00",
     "notes": "Platinum loyalty member. Always requests Executive Suite with city view. Champagne upon arrival."
@@ -92,7 +92,7 @@
     "idType": "Driver's License",
     "idNumber": "IRL-204-9381",
     "totalStays": 4,
-    "totalSpent": "$3,720",
+    "totalSpent": "₦1,860,000",
     "status": "checked-in",
     "lastVisit": "2026-06-06T18:45:00",
     "notes": "Travelling with spouse. Requested late checkout."
@@ -106,7 +106,7 @@
     "idType": "Passport",
     "idNumber": "AE5039281",
     "totalStays": 9,
-    "totalSpent": "$14,200",
+    "totalSpent": "₦7,100,000",
     "status": "reserved",
     "lastVisit": "2026-04-12T09:30:00",
     "notes": "Requires halal dining options. Prefers deluxe rooms."
@@ -120,7 +120,7 @@
     "idType": "Passport",
     "idNumber": "KE3827164",
     "totalStays": 1,
-    "totalSpent": "$740",
+    "totalSpent": "₦370,000",
     "status": "reserved",
     "lastVisit": "2026-05-01T13:00:00",
     "notes": "First-time guest booked via travel agency."
@@ -134,7 +134,7 @@
     "idType": "Passport",
     "idNumber": "E48291037",
     "totalStays": 6,
-    "totalSpent": "$7,890",
+    "totalSpent": "₦3,945,000",
     "status": "checked-in",
     "lastVisit": "2026-06-07T20:30:00",
     "notes": "Mandarin-speaking. Prefers high-floor rooms."
@@ -148,7 +148,7 @@
     "idType": "Driver's License",
     "idNumber": "NY-DL-8472910",
     "totalStays": 25,
-    "totalSpent": "$87,400",
+    "totalSpent": "₦43,700,000",
     "status": "vip",
     "lastVisit": "2026-05-15T08:00:00",
     "notes": "Top-tier VIP. Always books Presidential Suite. Personal concierge required. Strictly no disturbances before 10 AM."
@@ -162,7 +162,7 @@
     "idType": "Passport",
     "idNumber": "J8472019",
     "totalStays": 8,
-    "totalSpent": "$6,340",
+    "totalSpent": "₦3,170,000",
     "status": "checked-out",
     "lastVisit": "2026-06-05T11:00:00",
     "notes": "Vegetarian meals only. Corporate booking."
@@ -176,7 +176,7 @@
     "idType": "National ID",
     "idNumber": "IT-CA83921746",
     "totalStays": 2,
-    "totalSpent": "$1,280",
+    "totalSpent": "₦640,000",
     "status": "checked-out",
     "lastVisit": "2026-06-03T10:00:00",
     "notes": "Requested extra pillows."
@@ -190,7 +190,7 @@
     "idType": "National ID",
     "idNumber": "ES-47281930X",
     "totalStays": 11,
-    "totalSpent": "$12,450",
+    "totalSpent": "₦6,225,000",
     "status": "checked-out",
     "lastVisit": "2026-06-01T09:30:00",
     "notes": "Frequent guest. Enjoys spa services."
@@ -204,7 +204,7 @@
     "idType": "Passport",
     "idNumber": "PA9281734",
     "totalStays": 3,
-    "totalSpent": "$2,160",
+    "totalSpent": "₦1,080,000",
     "status": "checked-out",
     "lastVisit": "2026-05-28T12:00:00",
     "notes": "Requested airport shuttle on departure."

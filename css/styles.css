@@ -26,7 +26,7 @@
 
 }
 
-.dark {
+.ghst-dark {
   /* Dark Theme (Premium Vamot Style) */
   --bg: 5 5 5;             /* Near Black */
   --sidebar: 5 5 5;        /* Match BG */
@@ -68,11 +68,11 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-body.modal-open {
+body.ghst-modal-open {
   overflow: hidden;
 }
 
-body.modal-open main {
+body.ghst-modal-open main {
   overflow: hidden;
 }
 
@@ -147,27 +147,27 @@ body.modal-open main {
   }
 }
 
-.animate-scale-in-dropdown {
+.ghst-animate-scale-in-dropdown {
   animation: scaleInDropdown 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.animate-fade-in {
+.ghst-animate-fade-in {
   animation: fadeIn 0.3s ease both;
 }
 
-.animate-fade-in-up {
+.ghst-animate-fade-in-up {
   animation: fadeInUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-.animate-slide-in-right {
+.ghst-animate-slide-in-right {
   animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.animate-slide-out-right {
+.ghst-animate-slide-out-right {
   animation: slideOutRight 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.skeleton {
+.ghst-skeleton {
   background: linear-gradient(
     90deg,
     rgb(var(--card)) 25%,
@@ -180,29 +180,29 @@ body.modal-open main {
 }
 
 /* Liquid Glass Refraction (SKILL.md) */
-.glass-panel {
+.ghst-glass-panel {
   background: rgba(var(--bg), 0.7);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
-.dark .glass-panel {
+.ghst-dark .ghst-glass-panel {
   background: rgba(var(--bg), 0.85);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 /* Tactile feedback for buttons */
-.btn-tactile {
+.ghst-btn-tactile {
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.btn-tactile:active:not(:disabled) {
+.ghst-btn-tactile:active:not(:disabled) {
   transform: scale(0.98);
 }
 
 /* Notification Pulse */
-.notification-dot::after {
+.ghst-notification-dot::after {
   content: '';
   position: absolute;
   top: 0; right: 0;
@@ -220,34 +220,34 @@ body.modal-open main {
 }
 
 /* Sidebar overlay */
-.sidebar-overlay { transition: opacity 0.3s ease; }
-.sidebar-transition { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+.ghst-sidebar-overlay { transition: opacity 0.3s ease; }
+.ghst-sidebar-transition { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
 
 /* Card diffusions */
-.card-diffusion {
+.ghst-card-diffusion {
   box-shadow: var(--shadow-diffuse);
 }
 
-.kpi-card {
+.ghst-kpi-card {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.kpi-card:hover {
+.ghst-kpi-card:hover {
   transform: translateY(-2px);
   border-color: rgb(var(--border-hover));
 }
 
-.hide-scrollbar {
+.ghst-hide-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-.hide-scrollbar::-webkit-scrollbar { display: none; }
+.ghst-hide-scrollbar::-webkit-scrollbar { display: none; }
 
 /* Modal layout helpers */
-.modal-shell {
+.ghst-modal-shell {
   overscroll-behavior: contain;
 }
 
-.modal-panel {
+.ghst-modal-panel {
   max-height: calc(100dvh - 2rem);
   scrollbar-gutter: stable;
 }

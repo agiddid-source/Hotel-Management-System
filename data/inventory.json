@@ -6,7 +6,7 @@
     "currentStock": 342,
     "minimumStock": 200,
     "unit": "pieces",
-    "unitCost": "$4.50",
+    "unitCost": "₦2,250",
     "supplier": "Grand Textile Solutions",
     "lastRestocked": "2026-06-01T09:00:00",
     "status": "in-stock"
@@ -18,7 +18,7 @@
     "currentStock": 85,
     "minimumStock": 100,
     "unit": "sets",
-    "unitCost": "$18.75",
+    "unitCost": "₦9,375",
     "supplier": "Grand Textile Solutions",
     "lastRestocked": "2026-05-20T10:30:00",
     "status": "low-stock"
@@ -30,7 +30,7 @@
     "currentStock": 520,
     "minimumStock": 300,
     "unit": "bottles",
-    "unitCost": "$1.25",
+    "unitCost": "₦625",
     "supplier": "EcoClean Amenities Co.",
     "lastRestocked": "2026-06-05T08:00:00",
     "status": "in-stock"
@@ -42,7 +42,7 @@
     "currentStock": 180,
     "minimumStock": 200,
     "unit": "pieces",
-    "unitCost": "$0.85",
+    "unitCost": "₦425",
     "supplier": "Roastline Premium Beverages",
     "lastRestocked": "2026-05-28T14:00:00",
     "status": "low-stock"
@@ -54,7 +54,7 @@
     "currentStock": 410,
     "minimumStock": 250,
     "unit": "bottles",
-    "unitCost": "$0.60",
+    "unitCost": "₦300",
     "supplier": "CrystalSpring Distributors",
     "lastRestocked": "2026-06-03T11:00:00",
     "status": "in-stock"
@@ -66,7 +66,7 @@
     "currentStock": 275,
     "minimumStock": 200,
     "unit": "bottles",
-    "unitCost": "$0.95",
+    "unitCost": "₦475",
     "supplier": "CrystalSpring Distributors",
     "lastRestocked": "2026-06-03T11:00:00",
     "status": "in-stock"
@@ -78,7 +78,7 @@
     "currentStock": 210,
     "minimumStock": 150,
     "unit": "pieces",
-    "unitCost": "$12.00",
+    "unitCost": "₦6,000",
     "supplier": "Grand Textile Solutions",
     "lastRestocked": "2026-05-15T09:30:00",
     "status": "in-stock"
@@ -90,7 +90,7 @@
     "currentStock": 640,
     "minimumStock": 400,
     "unit": "rolls",
-    "unitCost": "$0.45",
+    "unitCost": "₦225",
     "supplier": "CleanWave Supplies Ltd.",
     "lastRestocked": "2026-06-07T08:30:00",
     "status": "in-stock"
@@ -102,7 +102,7 @@
     "currentStock": 390,
     "minimumStock": 250,
     "unit": "bottles",
-    "unitCost": "$1.10",
+    "unitCost": "₦550",
     "supplier": "EcoClean Amenities Co.",
     "lastRestocked": "2026-06-05T08:00:00",
     "status": "in-stock"
@@ -114,7 +114,7 @@
     "currentStock": 45,
     "minimumStock": 30,
     "unit": "liters",
-    "unitCost": "$6.80",
+    "unitCost": "₦3,400",
     "supplier": "CleanWave Supplies Ltd.",
     "lastRestocked": "2026-05-25T13:00:00",
     "status": "in-stock"
@@ -126,7 +126,7 @@
     "currentStock": 48,
     "minimumStock": 100,
     "unit": "pieces",
-    "unitCost": "$0.35",
+    "unitCost": "₦175",
     "supplier": "SecureAccess Technologies",
     "lastRestocked": "2026-05-10T10:00:00",
     "status": "low-stock"
@@ -138,7 +138,7 @@
     "currentStock": 120,
     "minimumStock": 80,
     "unit": "pieces",
-    "unitCost": "$2.20",
+    "unitCost": "₦1,100",
     "supplier": "Artisan Confections Group",
     "lastRestocked": "2026-06-02T07:45:00",
     "status": "in-stock"
@@ -150,7 +150,7 @@
     "currentStock": 0,
     "minimumStock": 100,
     "unit": "pieces",
-    "unitCost": "$1.80",
+    "unitCost": "₦900",
     "supplier": "ComfortWear Hospitality",
     "lastRestocked": "2026-04-28T09:00:00",
     "status": "out-of-stock"
@@ -162,7 +162,7 @@
     "currentStock": 65,
     "minimumStock": 60,
     "unit": "pieces",
-    "unitCost": "$22.50",
+    "unitCost": "₦11,250",
     "supplier": "Grand Textile Solutions",
     "lastRestocked": "2026-05-18T10:00:00",
     "status": "in-stock"
@@ -174,7 +174,7 @@
     "currentStock": 12,
     "minimumStock": 15,
     "unit": "pieces",
-    "unitCost": "$28.00",
+    "unitCost": "₦14,000",
     "supplier": "HotelTech Equipment Inc.",
     "lastRestocked": "2026-04-10T11:30:00",
     "status": "low-stock"
@@ -186,7 +186,7 @@
     "currentStock": 20,
     "minimumStock": 15,
     "unit": "sets",
-    "unitCost": "$35.00",
+    "unitCost": "₦17,500",
     "supplier": "HotelTech Equipment Inc.",
     "lastRestocked": "2026-03-22T14:00:00",
     "status": "in-stock"
@@ -198,7 +198,7 @@
     "currentStock": 95,
     "minimumStock": 80,
     "unit": "pieces",
-    "unitCost": "$15.00",
+    "unitCost": "₦7,500",
     "supplier": "Grand Textile Solutions",
     "lastRestocked": "2026-05-15T09:30:00",
     "status": "in-stock"
@@ -210,7 +210,7 @@
     "currentStock": 280,
     "minimumStock": 200,
     "unit": "pieces",
-    "unitCost": "$2.75",
+    "unitCost": "₦1,375",
     "supplier": "Grand Textile Solutions",
     "lastRestocked": "2026-06-01T09:00:00",
     "status": "in-stock"

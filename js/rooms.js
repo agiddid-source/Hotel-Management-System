@@ -45,7 +45,7 @@ const Rooms = {
   escapeKeyBound: false,
 
   /** @type {Array<string>} Modal element IDs managed by this page */
-  modalIds: ['add-room-modal', 'edit-room-modal', 'reservation-modal'],
+  modalIds: ['ghst-add-room-modal', 'ghst-edit-room-modal', 'ghst-reservation-modal'],
 
   // ============================================
   // INITIALIZATION
@@ -73,7 +73,7 @@ const Rooms = {
       return modal && !modal.classList.contains('hidden');
     });
 
-    document.body.classList.toggle('modal-open', anyModalOpen);
+    document.body.classList.toggle('ghst-modal-open', anyModalOpen);
   },
 
   /**
@@ -81,12 +81,12 @@ const Rooms = {
    * This gives Escape-key behavior a single predictable path.
    */
   closeTopMostModal() {
-    for (const modalId of ['reservation-modal', 'edit-room-modal', 'add-room-modal']) {
+    for (const modalId of ['ghst-reservation-modal', 'ghst-edit-room-modal', 'ghst-add-room-modal']) {
       const modal = document.getElementById(modalId);
       if (modal && !modal.classList.contains('hidden')) {
-        if (modalId === 'reservation-modal') this.closeReservationModal();
-        if (modalId === 'edit-room-modal') this.closeEditRoomModal();
-        if (modalId === 'add-room-modal') this.closeAddRoomModal();
+        if (modalId === 'ghst-reservation-modal') this.closeReservationModal();
+        if (modalId === 'ghst-edit-room-modal') this.closeEditRoomModal();
+        if (modalId === 'ghst-add-room-modal') this.closeAddRoomModal();
         return;
       }
     }
@@ -125,7 +125,7 @@ const Rooms = {
    * Each page can customize these buttons.
    */
   setPageActions() {
-    const actionsEl = document.getElementById('page-actions');
+    const actionsEl = document.getElementById('ghst-page-actions');
     if (actionsEl) {
       actionsEl.innerHTML = `
         ${HMS.createButton('Add Room', 'primary', { icon: 'plus-circle', onclick: 'Rooms.openAddRoomModal()' })}
@@ -199,7 +199,7 @@ const Rooms = {
    * Injects HTML into the #main-content container.
    */
   render() {
-    const content = document.getElementById('main-content');
+    const content = document.getElementById('ghst-main-content');
     if (!content) return;
 
     // Dynamically generate filter options from roomTypes
@@ -211,7 +211,7 @@ const Rooms = {
     const visibleRooms = this.getVisibleRooms();
 
     content.innerHTML = `
-      <div class="bg-surface-card border border-outline rounded-xl overflow-visible card-diffusion">
+      <div class="bg-surface-card border border-outline rounded-xl overflow-visible ghst-card-diffusion">
         <div class="flex items-center justify-between px-6 py-4 border-b border-outline">
           <div>
             <h3 class="text-base font-semibold text-content-main">All Rooms</h3>
@@ -233,7 +233,7 @@ const Rooms = {
                 <th class="px-4 py-3 w-12"></th>
               </tr>
             </thead>
-            <tbody id="rooms-table-body">
+            <tbody id="ghst-rooms-table-body">
               ${this.renderRoomRows(visibleRooms)}
             </tbody>
           </table>
@@ -267,7 +267,7 @@ const Rooms = {
       <tr class="border-t border-outline hover:bg-surface-hover transition-colors duration-150">
         <td class="px-4 py-3.5 text-sm font-medium text-content-main">${room.roomNumber}</td>
         <td class="px-4 py-3.5 text-sm text-content-sec">${room.roomType.name}</td>
-        <td class="px-4 py-3.5 text-sm text-content-sec">$${room.price.toFixed(2)}</td>
+        <td class="px-4 py-3.5 text-sm text-content-sec">₦${room.price.toLocaleString()}</td>
         <td class="px-4 py-3.5 text-sm text-content-sec">${room.capacity}</td>
         <td class="px-4 py-3.5">
           ${HMS.getStatusBadge(room.status)}
@@ -277,8 +277,8 @@ const Rooms = {
             ${HMS.createDropdown(HMS.getIcon('moreVertical'), [
               // Show 'Make Reservation' only for available rooms
               ...(room.status === 'available' ? [{ label: 'Make Reservation', onclick: makeResOnclick, icon: 'plus-circle' }] : []),
-              { label: 'Edit', onclick: editOnclick },
-              { label: 'Delete', onclick: deleteOnclick },
+              { label: 'Edit', onclick: editOnclick, icon: 'edit' },
+              { label: 'Delete', onclick: deleteOnclick, icon: 'trash' },
             ], { align: 'right', id: 'room-actions-' + room.id, hideChevron: true })}
           </div>
         </td>
@@ -327,23 +327,23 @@ const Rooms = {
    */
   bindModalEvents() {
     if (!this.modalEventsBound) {
-      const addRoomForm = document.getElementById('add-room-form');
+      const addRoomForm = document.getElementById('ghst-add-room-form');
       if (addRoomForm) {
         addRoomForm.addEventListener('submit', (e) => this.handleAddRoomSubmit(e));
       }
 
-      const editRoomForm = document.getElementById('edit-room-form');
+      const editRoomForm = document.getElementById('ghst-edit-room-form');
       if (editRoomForm) {
         editRoomForm.addEventListener('submit', (e) => this.handleEditRoomSubmit(e));
       }
 
-      const reservationForm = document.getElementById('reservation-form');
+      const reservationForm = document.getElementById('ghst-reservation-form');
       if (reservationForm) {
         reservationForm.addEventListener('submit', (e) => this.handleReservationSubmit(e));
       }
 
       // Close modal when clicking outside (on the overlay)
-      const addRoomModal = document.getElementById('add-room-modal');
+      const addRoomModal = document.getElementById('ghst-add-room-modal');
       if (addRoomModal) {
         addRoomModal.addEventListener('click', (e) => {
           if (e.target === addRoomModal) {
@@ -352,7 +352,7 @@ const Rooms = {
         });
       }
 
-      const editRoomModal = document.getElementById('edit-room-modal');
+      const editRoomModal = document.getElementById('ghst-edit-room-modal');
       if (editRoomModal) {
         editRoomModal.addEventListener('click', (e) => {
           if (e.target === editRoomModal) {
@@ -361,7 +361,7 @@ const Rooms = {
         });
       }
 
-      const reservationModal = document.getElementById('reservation-modal');
+      const reservationModal = document.getElementById('ghst-reservation-modal');
       if (reservationModal) {
         reservationModal.addEventListener('click', (e) => {
           if (e.target === reservationModal) {
@@ -370,7 +370,7 @@ const Rooms = {
         });
       }
 
-      ['reservation-checkin', 'reservation-checkout', 'reservation-adults', 'reservation-children'].forEach((fieldId) => {
+      ['ghst-reservation-checkin', 'ghst-reservation-checkout', 'ghst-reservation-adults', 'ghst-reservation-children'].forEach((fieldId) => {
         const field = document.getElementById(fieldId);
         if (field) {
           field.addEventListener('input', () => {
@@ -420,7 +420,7 @@ const Rooms = {
    * Populates the room type dropdown in the add room modal.
    */
   populateRoomTypeDropdown() {
-    const roomTypeSelect = document.getElementById('room-type');
+    const roomTypeSelect = document.getElementById('ghst-room-type');
     if (roomTypeSelect) {
       roomTypeSelect.innerHTML = '<option value="">Select a room type</option>';
       this.roomTypes.forEach(type => {
@@ -436,7 +436,7 @@ const Rooms = {
    * Populates the room type dropdown in the edit room modal.
    */
   populateEditRoomTypeDropdown() {
-    const roomTypeSelect = document.getElementById('edit-room-type');
+    const roomTypeSelect = document.getElementById('ghst-edit-room-type');
     if (roomTypeSelect) {
       roomTypeSelect.innerHTML = '<option value="">Select a room type</option>';
       this.roomTypes.forEach(type => {
@@ -460,7 +460,7 @@ const Rooms = {
    * Opens the add room modal.
    */
   openAddRoomModal() {
-    const modal = document.getElementById('add-room-modal');
+    const modal = document.getElementById('ghst-add-room-modal');
     if (modal) {
       modal.classList.remove('hidden');
       this.populateRoomTypeDropdown();
@@ -473,10 +473,10 @@ const Rooms = {
    * Closes the add room modal.
    */
   closeAddRoomModal() {
-    const modal = document.getElementById('add-room-modal');
+    const modal = document.getElementById('ghst-add-room-modal');
     if (modal) {
       modal.classList.add('hidden');
-      document.getElementById('add-room-form').reset(); // Clear form fields
+      document.getElementById('ghst-add-room-form').reset(); // Clear form fields
       this.refreshModalScrollLock();
     }
   },
@@ -491,21 +491,21 @@ const Rooms = {
 
     this.currentReservationRoomId = roomId;
 
-    const form = document.getElementById('reservation-form');
+    const form = document.getElementById('ghst-reservation-form');
     if (form) {
       form.reset();
     }
 
-    const checkInField = document.getElementById('reservation-checkin');
-    const checkOutField = document.getElementById('reservation-checkout');
-    const adultsField = document.getElementById('reservation-adults');
-    const childrenField = document.getElementById('reservation-children');
-    const roomIdField = document.getElementById('reservation-room-id');
-    const guestNameField = document.getElementById('reservation-guest-name');
-    const guestEmailField = document.getElementById('reservation-guest-email');
-    const guestPhoneField = document.getElementById('reservation-guest-phone');
-    const statusField = document.getElementById('reservation-status');
-    const notesField = document.getElementById('reservation-notes');
+    const checkInField = document.getElementById('ghst-reservation-checkin');
+    const checkOutField = document.getElementById('ghst-reservation-checkout');
+    const adultsField = document.getElementById('ghst-reservation-adults');
+    const childrenField = document.getElementById('ghst-reservation-children');
+    const roomIdField = document.getElementById('ghst-reservation-room-id');
+    const guestNameField = document.getElementById('ghst-reservation-guest-name');
+    const guestEmailField = document.getElementById('ghst-reservation-guest-email');
+    const guestPhoneField = document.getElementById('ghst-reservation-guest-phone');
+    const statusField = document.getElementById('ghst-reservation-status');
+    const notesField = document.getElementById('ghst-reservation-notes');
 
     if (roomIdField) roomIdField.value = room.id;
     if (checkInField) checkInField.value = this.getLocalDateString(0);
@@ -527,7 +527,7 @@ const Rooms = {
     this.syncReservationDateBounds();
     this.updateReservationSummary(room);
 
-    const modal = document.getElementById('reservation-modal');
+    const modal = document.getElementById('ghst-reservation-modal');
     if (modal) {
       modal.classList.remove('hidden');
       this.refreshModalScrollLock();
@@ -544,17 +544,17 @@ const Rooms = {
    * Closes the reservation modal.
    */
   closeReservationModal() {
-    const modal = document.getElementById('reservation-modal');
+    const modal = document.getElementById('ghst-reservation-modal');
     if (modal) {
       modal.classList.add('hidden');
     }
 
-    const form = document.getElementById('reservation-form');
+    const form = document.getElementById('ghst-reservation-form');
     if (form) {
       form.reset();
     }
 
-    const estimateEl = document.getElementById('reservation-estimate-total');
+    const estimateEl = document.getElementById('ghst-reservation-estimate-total');
     if (estimateEl) estimateEl.textContent = '$0.00';
 
     this.currentReservationRoomId = null;
@@ -566,8 +566,8 @@ const Rooms = {
    * Check-out is always forced to at least one night after check-in.
    */
   syncReservationDateBounds() {
-    const checkInField = document.getElementById('reservation-checkin');
-    const checkOutField = document.getElementById('reservation-checkout');
+    const checkInField = document.getElementById('ghst-reservation-checkin');
+    const checkOutField = document.getElementById('ghst-reservation-checkout');
 
     if (!checkInField || !checkOutField) return;
 
@@ -592,10 +592,10 @@ const Rooms = {
     const room = roomOverride || this.data.find(r => r.id === this.currentReservationRoomId);
     if (!room) return;
 
-    const checkIn = document.getElementById('reservation-checkin')?.value || this.getLocalDateString(0);
-    const checkOut = document.getElementById('reservation-checkout')?.value || this.getLocalDateString(1);
-    const adultsField = document.getElementById('reservation-adults');
-    const childrenField = document.getElementById('reservation-children');
+    const checkIn = document.getElementById('ghst-reservation-checkin')?.value || this.getLocalDateString(0);
+    const checkOut = document.getElementById('ghst-reservation-checkout')?.value || this.getLocalDateString(1);
+    const adultsField = document.getElementById('ghst-reservation-adults');
+    const childrenField = document.getElementById('ghst-reservation-children');
     const adults = parseInt(adultsField?.value || '1', 10);
     const children = parseInt(childrenField?.value || '0', 10);
     const nights = this.calculateNights(checkIn, checkOut);
@@ -613,18 +613,18 @@ const Rooms = {
       if (childrenField) childrenField.value = String(adjustedChildren);
     }
 
-    const roomNumberEl = document.getElementById('reservation-room-number');
+    const roomNumberEl = document.getElementById('ghst-reservation-room-number');
     const roomTypeEl = document.getElementById('reservation-room-type');
-    const roomRateEl = document.getElementById('reservation-room-rate');
-    const roomCapacityEl = document.getElementById('reservation-room-capacity');
-    const reservationNightsEl = document.getElementById('reservation-nights');
-    const reservationGuestsEl = document.getElementById('reservation-guests');
-    const estimateTotalEl = document.getElementById('reservation-estimate-total');
-    const roomBadgeEl = document.getElementById('reservation-room-badge');
+    const roomRateEl = document.getElementById('ghst-reservation-room-rate');
+    const roomCapacityEl = document.getElementById('ghst-reservation-room-capacity');
+    const reservationNightsEl = document.getElementById('ghst-reservation-nights');
+    const reservationGuestsEl = document.getElementById('ghst-reservation-guests');
+    const estimateTotalEl = document.getElementById('ghst-reservation-estimate-total');
+    const roomBadgeEl = document.getElementById('ghst-reservation-room-badge');
 
     if (roomNumberEl) roomNumberEl.textContent = `Room ${room.roomNumber}`;
     if (roomTypeEl) roomTypeEl.textContent = room.roomType?.name || 'Room';
-    if (roomRateEl) roomRateEl.textContent = `$${room.price.toFixed(2)} / night`;
+    if (roomRateEl) roomRateEl.textContent = `₦${room.price.toLocaleString()} / night`;
     if (roomCapacityEl) roomCapacityEl.textContent = `Fixed room capacity: ${roomCapacity} guest${roomCapacity === 1 ? '' : 's'}`;
     if (reservationNightsEl) reservationNightsEl.textContent = `${Math.max(nights, 0)} night${Math.max(nights, 0) === 1 ? '' : 's'}`;
     if (reservationGuestsEl) reservationGuestsEl.textContent = `${Math.min(totalGuests, roomCapacity)} guest${Math.min(totalGuests, roomCapacity) === 1 ? '' : 's'}`;
@@ -633,7 +633,7 @@ const Rooms = {
       roomBadgeEl.innerHTML = HMS.getStatusBadge(room.status);
     }
 
-    const roomSummaryEl = document.getElementById('reservation-room-summary');
+    const roomSummaryEl = document.getElementById('ghst-reservation-room-summary');
     if (roomSummaryEl) {
       roomSummaryEl.innerHTML = `
         <div class="flex items-center gap-3">
@@ -699,15 +699,15 @@ const Rooms = {
 
     this.syncReservationDateBounds();
 
-    const guestName = document.getElementById('reservation-guest-name')?.value.trim();
-    const guestEmail = document.getElementById('reservation-guest-email')?.value.trim();
-    const guestPhone = document.getElementById('reservation-guest-phone')?.value.trim();
-    const checkIn = document.getElementById('reservation-checkin')?.value;
-    const checkOut = document.getElementById('reservation-checkout')?.value;
-    const adults = parseInt(document.getElementById('reservation-adults')?.value || '1', 10);
-    const children = parseInt(document.getElementById('reservation-children')?.value || '0', 10);
-    const reservationStatus = document.getElementById('reservation-status')?.value || 'confirmed';
-    const notes = document.getElementById('reservation-notes')?.value.trim() || '';
+    const guestName = document.getElementById('ghst-reservation-guest-name')?.value.trim();
+    const guestEmail = document.getElementById('ghst-reservation-guest-email')?.value.trim();
+    const guestPhone = document.getElementById('ghst-reservation-guest-phone')?.value.trim();
+    const checkIn = document.getElementById('ghst-reservation-checkin')?.value;
+    const checkOut = document.getElementById('ghst-reservation-checkout')?.value;
+    const adults = parseInt(document.getElementById('ghst-reservation-adults')?.value || '1', 10);
+    const children = parseInt(document.getElementById('ghst-reservation-children')?.value || '0', 10);
+    const reservationStatus = document.getElementById('ghst-reservation-status')?.value || 'confirmed';
+    const notes = document.getElementById('ghst-reservation-notes')?.value.trim() || '';
     const totalGuests = adults + children;
 
     if (!guestName) {
@@ -784,10 +784,10 @@ const Rooms = {
     event.preventDefault();
 
     // Retrieve form values
-    const roomNumber = document.getElementById('room-number').value;
-    const roomTypeId = document.getElementById('room-type').value;
-    const price = parseFloat(document.getElementById('room-price').value);
-    const capacity = parseInt(document.getElementById('room-capacity').value);
+    const roomNumber = document.getElementById('ghst-room-number').value;
+    const roomTypeId = document.getElementById('ghst-room-type').value;
+    const price = parseFloat(document.getElementById('ghst-room-price').value);
+    const capacity = parseInt(document.getElementById('ghst-room-capacity').value);
 
     // Find the selected room type
     const roomType = this.roomTypes.find(type => type.id === roomTypeId);
@@ -882,17 +882,17 @@ const Rooms = {
     this.currentEditingRoomId = roomId;
 
     // Pre-populate the form with current room data
-    document.getElementById('edit-room-number').value = room.roomNumber;
-    document.getElementById('edit-room-type').value = room.roomType.id;
-    document.getElementById('edit-room-price').value = room.price;
-    document.getElementById('edit-room-capacity').value = room.capacity;
-    document.getElementById('edit-room-status').value = room.status;
+    document.getElementById('ghst-edit-room-number').value = room.roomNumber;
+    document.getElementById('ghst-edit-room-type').value = room.roomType.id;
+    document.getElementById('ghst-edit-room-price').value = room.price;
+    document.getElementById('ghst-edit-room-capacity').value = room.capacity;
+    document.getElementById('ghst-edit-room-status').value = room.status;
 
     // Populate room type dropdown with available types
     this.populateEditRoomTypeDropdown();
 
     // Open the modal by removing the hidden class
-    const modal = document.getElementById('edit-room-modal');
+    const modal = document.getElementById('ghst-edit-room-modal');
     if (modal) {
       modal.classList.remove('hidden');
       this.refreshModalScrollLock();
@@ -906,10 +906,10 @@ const Rooms = {
    * Closes the edit room modal.
    */
   closeEditRoomModal() {
-    const modal = document.getElementById('edit-room-modal');
+    const modal = document.getElementById('ghst-edit-room-modal');
     if (modal) {
       modal.classList.add('hidden');
-      document.getElementById('edit-room-form').reset();
+      document.getElementById('ghst-edit-room-form').reset();
     }
     this.currentEditingRoomId = null;
     this.refreshModalScrollLock();
@@ -935,11 +935,11 @@ const Rooms = {
     }
 
     // Retrieve form values
-    const roomNumber = document.getElementById('edit-room-number').value;
-    const roomTypeId = document.getElementById('edit-room-type').value;
-    const price = parseFloat(document.getElementById('edit-room-price').value);
-    const capacity = parseInt(document.getElementById('edit-room-capacity').value);
-    const status = document.getElementById('edit-room-status').value;
+    const roomNumber = document.getElementById('ghst-edit-room-number').value;
+    const roomTypeId = document.getElementById('ghst-edit-room-type').value;
+    const price = parseFloat(document.getElementById('ghst-edit-room-price').value);
+    const capacity = parseInt(document.getElementById('ghst-edit-room-capacity').value);
+    const status = document.getElementById('ghst-edit-room-status').value;
 
     // Find the selected room type
     const roomType = this.roomTypes.find(type => type.id === roomTypeId);

@@ -7,7 +7,7 @@
     "checkIn": "2024-12-15",
     "checkOut": "2024-12-19",
     "status": "confirmed",
-    "amount": "$2,840"
+    "amount": "₦1,420,000"
   },
   {
     "id": "RSV-2024-1848",
@@ -17,7 +17,7 @@
     "checkIn": "2024-12-15",
     "checkOut": "2024-12-17",
     "status": "checked-in",
-    "amount": "$680"
+    "amount": "₦340,000"
   },
   {
     "id": "RSV-2024-1849",
@@ -27,7 +27,7 @@
     "checkIn": "2024-12-14",
     "checkOut": "2024-12-16",
     "status": "checked-out",
-    "amount": "$420"
+    "amount": "₦210,000"
   },
   {
     "id": "RSV-2024-1850",
@@ -37,7 +37,7 @@
     "checkIn": "2024-12-16",
     "checkOut": "2024-12-20",
     "status": "pending",
-    "amount": "$1,120"
+    "amount": "₦560,000"
   },
   {
     "id": "RSV-2024-1851",
@@ -47,7 +47,7 @@
     "checkIn": "2024-12-15",
     "checkOut": "2024-12-18",
     "status": "confirmed",
-    "amount": "$1,950"
+    "amount": "₦975,000"
   },
   {
     "id": "RSV-2024-1852",
@@ -57,7 +57,7 @@
     "checkIn": "2024-12-15",
     "checkOut": "2024-12-17",
     "status": "checked-in",
-    "amount": "$760"
+    "amount": "₦380,000"
   },
   {
     "id": "RSV-2024-1853",
@@ -67,7 +67,7 @@
     "checkIn": "2024-12-13",
     "checkOut": "2024-12-15",
     "status": "checked-out",
-    "amount": "$380"
+    "amount": "₦190,000"
   },
   {
     "id": "RSV-2024-1854",
@@ -77,7 +77,7 @@
     "checkIn": "2024-12-17",
     "checkOut": "2024-12-21",
     "status": "pending",
-    "amount": "$920"
+    "amount": "₦460,000"
   },
   {
     "id": "RSV-2024-1855",
@@ -87,7 +87,7 @@
     "checkIn": "2024-12-15",
     "checkOut": "2024-12-19",
     "status": "confirmed",
-    "amount": "$1,480"
+    "amount": "₦740,000"
   },
   {
     "id": "RSV-2024-1856",
@@ -97,6 +97,6 @@
     "checkIn": "2024-12-14",
     "checkOut": "2024-12-15",
     "status": "cancelled",
-    "amount": "$340"
+    "amount": "₦170,000"
   }
 ]

@@ -94,7 +94,7 @@ const Router = {
     Sidebar.setActive(pageId);
 
     // Clear the content area and show a loading skeleton
-    const contentArea = document.getElementById('main-content');
+    const contentArea = document.getElementById('ghst-main-content');
     if (contentArea) {
       contentArea.innerHTML = this.renderSkeleton();
       console.log('[Router] Skeleton rendered.');
@@ -123,14 +123,14 @@ const Router = {
    */
   updatePageHeader(title, subtitle) {
     // Update the header breadcrumb title
-    const pageTitleEl = document.getElementById('page-title');
+    const pageTitleEl = document.getElementById('ghst-page-title');
     if (pageTitleEl) {
       pageTitleEl.textContent = title;
     }
 
     // Update the hero section (large title + subtitle)
-    const heroTitleEl = document.getElementById('hero-title');
-    const heroSubtitleEl = document.getElementById('hero-subtitle');
+    const heroTitleEl = document.getElementById('ghst-hero-title');
+    const heroSubtitleEl = document.getElementById('ghst-hero-subtitle');
 
     if (heroTitleEl) heroTitleEl.textContent = title;
     if (heroSubtitleEl) heroSubtitleEl.textContent = subtitle;
@@ -148,12 +148,12 @@ const Router = {
   renderSkeleton() {
     return `
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <div class="skeleton h-[100px]"></div>
-        <div class="skeleton h-[100px]"></div>
-        <div class="skeleton h-[100px]"></div>
-        <div class="skeleton h-[100px]"></div>
+        <div class="ghst-skeleton h-[100px]"></div>
+        <div class="ghst-skeleton h-[100px]"></div>
+        <div class="ghst-skeleton h-[100px]"></div>
+        <div class="ghst-skeleton h-[100px]"></div>
       </div>
-      <div class="skeleton h-[400px]"></div>
+      <div class="ghst-skeleton h-[400px]"></div>
     `;
   },
 
@@ -173,7 +173,7 @@ const Router = {
         </div>
         <h3 class="text-lg font-semibold text-content-main mb-1">Page Load Error</h3>
         <p class="text-sm text-content-muted">Failed to load the "${pageId}" module. Check the console for details.</p>
-        <button onclick="Router.navigate('dashboard')" class="mt-4 px-4 py-2 text-sm font-medium bg-brand text-white rounded-lg hover:bg-brand-hover transition-colors btn-tactile">
+        <button onclick="Router.navigate('dashboard')" class="mt-4 px-4 py-2 text-sm font-medium bg-brand text-white rounded-lg hover:bg-brand-hover transition-colors ghst-btn-tactile">
           Return to Dashboard
         </button>
       </div>
