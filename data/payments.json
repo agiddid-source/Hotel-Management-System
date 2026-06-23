@@ -1,0 +1,167 @@
+[
+  {
+    "id": "PAY-10001",
+    "reservationId": "RSV-2026-1847",
+    "guestName": "Sophia Laurent",
+    "description": "Room Charge - Executive Suite 501 (5 nights)",
+    "amount": "₦1,625,000",
+    "method": "Credit Card",
+    "status": "completed",
+    "date": "2026-06-07T10:12:00",
+    "invoiceNumber": "INV-2026-0847"
+  },
+  {
+    "id": "PAY-10002",
+    "reservationId": "RSV-2026-1852",
+    "guestName": "Carlos Mendes",
+    "description": "Room Charge - Standard Double 102 (3 nights)",
+    "amount": "₦232,500",
+    "method": "Debit Card",
+    "status": "completed",
+    "date": "2026-06-08T14:35:00",
+    "invoiceNumber": "INV-2026-0852"
+  },
+  {
+    "id": "PAY-10003",
+    "reservationId": "RSV-2026-1847",
+    "guestName": "Sophia Laurent",
+    "description": "Spa Services - Full Day Package",
+    "amount": "₦210,000",
+    "method": "Credit Card",
+    "status": "completed",
+    "date": "2026-06-08T16:45:00",
+    "invoiceNumber": "INV-2026-0853"
+  },
+  {
+    "id": "PAY-10004",
+    "reservationId": "RSV-2026-1839",
+    "guestName": "Elena Petrov",
+    "description": "Room Charge - Junior Suite 401 (7 nights)",
+    "amount": "₦1,295,000",
+    "method": "Bank Transfer",
+    "status": "completed",
+    "date": "2026-06-06T15:40:00",
+    "invoiceNumber": "INV-2026-0840"
+  },
+  {
+    "id": "PAY-10005",
+    "reservationId": "RSV-2026-1855",
+    "guestName": "James O'Sullivan",
+    "description": "Room Charge - Standard King 309 (4 nights)",
+    "amount": "₦420,000",
+    "method": "Credit Card",
+    "status": "completed",
+    "date": "2026-06-06T18:50:00",
+    "invoiceNumber": "INV-2026-0855"
+  },
+  {
+    "id": "PAY-10006",
+    "reservationId": "RSV-2026-1855",
+    "guestName": "James O'Sullivan",
+    "description": "Restaurant Bill - Dinner for 2",
+    "amount": "₦93,250",
+    "method": "Cash",
+    "status": "completed",
+    "date": "2026-06-07T21:30:00",
+    "invoiceNumber": "INV-2026-0856"
+  },
+  {
+    "id": "PAY-10007",
+    "reservationId": "RSV-2026-1860",
+    "guestName": "Henrik Johansson",
+    "description": "Room Charge - Deluxe Double 212 (2 nights)",
+    "amount": "₦275,000",
+    "method": "Online Payment",
+    "status": "completed",
+    "date": "2026-06-08T12:20:00",
+    "invoiceNumber": "INV-2026-0860"
+  },
+  {
+    "id": "PAY-10008",
+    "reservationId": "RSV-2026-1860",
+    "guestName": "Henrik Johansson",
+    "description": "Mini Bar Charges",
+    "amount": "₦23,750",
+    "method": "Online Payment",
+    "status": "pending",
+    "date": "2026-06-09T08:00:00",
+    "invoiceNumber": "INV-2026-0861"
+  },
+  {
+    "id": "PAY-10009",
+    "reservationId": "RSV-2026-1843",
+    "guestName": "Priya Sharma",
+    "description": "Room Charge - Standard Queen 203 (3 nights)",
+    "amount": "₦277,500",
+    "method": "Credit Card",
+    "status": "completed",
+    "date": "2026-06-05T11:10:00",
+    "invoiceNumber": "INV-2026-0843"
+  },
+  {
+    "id": "PAY-10010",
+    "reservationId": "RSV-2026-1843",
+    "guestName": "Priya Sharma",
+    "description": "Laundry Services",
+    "amount": "₦17,500",
+    "method": "Credit Card",
+    "status": "completed",
+    "date": "2026-06-04T14:00:00",
+    "invoiceNumber": "INV-2026-0844"
+  },
+  {
+    "id": "PAY-10011",
+    "reservationId": "RSV-2026-1871",
+    "guestName": "Richard Hastings III",
+    "description": "Room Charge - Presidential Suite 505 (3 nights, advance)",
+    "amount": "₦1,065,000",
+    "method": "Bank Transfer",
+    "status": "pending",
+    "date": "2026-06-09T09:00:00",
+    "invoiceNumber": "INV-2026-0871"
+  },
+  {
+    "id": "PAY-10012",
+    "reservationId": "RSV-2026-1835",
+    "guestName": "Ana García Ruiz",
+    "description": "Room Charge - Deluxe King 301 (4 nights)",
+    "amount": "₦680,000",
+    "method": "Credit Card",
+    "status": "refunded",
+    "date": "2026-06-01T09:40:00",
+    "invoiceNumber": "INV-2026-0835"
+  },
+  {
+    "id": "PAY-10013",
+    "reservationId": "RSV-2026-1865",
+    "guestName": "Mei-Ling Chen",
+    "description": "Room Service - In-Room Dining",
+    "amount": "₦46,000",
+    "method": "Debit Card",
+    "status": "completed",
+    "date": "2026-06-08T19:15:00",
+    "invoiceNumber": "INV-2026-0866"
+  },
+  {
+    "id": "PAY-10014",
+    "reservationId": "RSV-2026-1865",
+    "guestName": "Mei-Ling Chen",
+    "description": "Room Charge - Deluxe King 507 (3 nights)",
+    "amount": "₦570,000",
+    "method": "Online Payment",
+    "status": "completed",
+    "date": "2026-06-07T20:35:00",
+    "invoiceNumber": "INV-2026-0865"
+  },
+  {
+    "id": "PAY-10015",
+    "reservationId": "RSV-2026-1830",
+    "guestName": "Marco Bianchi",
+    "description": "Room Charge - Standard Twin 105 (2 nights)",
+    "amount": "₦165,000",
+    "method": "Cash",
+    "status": "failed",
+    "date": "2026-06-03T10:05:00",
+    "invoiceNumber": "INV-2026-0830"
+  }
+]

@@ -1,0 +1,37 @@
+[
+  {
+    "id": "standard_single",
+    "name": "Standard Single",
+    "description": "Comfortable room with one single bed.",
+    "capacity": 1,
+    "basePrice": 45000
+  },
+  {
+    "id": "standard_double",
+    "name": "Standard Double",
+    "description": "Spacious room with one double bed or two single beds.",
+    "capacity": 2,
+    "basePrice": 60000
+  },
+  {
+    "id": "deluxe_queen",
+    "name": "Deluxe Queen",
+    "description": "Luxurious room with a queen-sized bed and premium amenities.",
+    "capacity": 2,
+    "basePrice": 90000
+  },
+  {
+    "id": "suite_king",
+    "name": "Suite King",
+    "description": "Executive suite with a king-sized bed, separate living area, and upgraded features.",
+    "capacity": 3,
+    "basePrice": 125000
+  },
+  {
+    "id": "family_room",
+    "name": "Family Room",
+    "description": "Large room designed for families, with multiple beds and extra space.",
+    "capacity": 4,
+    "basePrice": 100000
+  }
+]

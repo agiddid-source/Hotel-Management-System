@@ -1,0 +1,102 @@
+[
+  {
+    "id": "RSV-2024-1847",
+    "guestName": "Alexander Mitchell",
+    "room": "Suite 401",
+    "roomType": "Presidential Suite",
+    "checkIn": "2024-12-15",
+    "checkOut": "2024-12-19",
+    "status": "confirmed",
+    "amount": "₦1,420,000"
+  },
+  {
+    "id": "RSV-2024-1848",
+    "guestName": "Sarah Chen",
+    "room": "Room 215",
+    "roomType": "Deluxe Double",
+    "checkIn": "2024-12-15",
+    "checkOut": "2024-12-17",
+    "status": "checked-in",
+    "amount": "₦340,000"
+  },
+  {
+    "id": "RSV-2024-1849",
+    "guestName": "James Rodriguez",
+    "room": "Room 308",
+    "roomType": "Standard King",
+    "checkIn": "2024-12-14",
+    "checkOut": "2024-12-16",
+    "status": "checked-out",
+    "amount": "₦210,000"
+  },
+  {
+    "id": "RSV-2024-1850",
+    "guestName": "Emma Thompson",
+    "room": "Room 112",
+    "roomType": "Standard Twin",
+    "checkIn": "2024-12-16",
+    "checkOut": "2024-12-20",
+    "status": "pending",
+    "amount": "₦560,000"
+  },
+  {
+    "id": "RSV-2024-1851",
+    "guestName": "Michael Okonkwo",
+    "room": "Suite 502",
+    "roomType": "Executive Suite",
+    "checkIn": "2024-12-15",
+    "checkOut": "2024-12-18",
+    "status": "confirmed",
+    "amount": "₦975,000"
+  },
+  {
+    "id": "RSV-2024-1852",
+    "guestName": "Lisa Yamamoto",
+    "room": "Room 220",
+    "roomType": "Deluxe King",
+    "checkIn": "2024-12-15",
+    "checkOut": "2024-12-17",
+    "status": "checked-in",
+    "amount": "₦380,000"
+  },
+  {
+    "id": "RSV-2024-1853",
+    "guestName": "Robert Müller",
+    "room": "Room 305",
+    "roomType": "Standard Double",
+    "checkIn": "2024-12-13",
+    "checkOut": "2024-12-15",
+    "status": "checked-out",
+    "amount": "₦190,000"
+  },
+  {
+    "id": "RSV-2024-1854",
+    "guestName": "Priya Sharma",
+    "room": "Room 118",
+    "roomType": "Standard Queen",
+    "checkIn": "2024-12-17",
+    "checkOut": "2024-12-21",
+    "status": "pending",
+    "amount": "₦460,000"
+  },
+  {
+    "id": "RSV-2024-1855",
+    "guestName": "David Kim",
+    "room": "Suite 405",
+    "roomType": "Junior Suite",
+    "checkIn": "2024-12-15",
+    "checkOut": "2024-12-19",
+    "status": "confirmed",
+    "amount": "₦740,000"
+  },
+  {
+    "id": "RSV-2024-1856",
+    "guestName": "Catherine Dubois",
+    "room": "Room 210",
+    "roomType": "Deluxe Twin",
+    "checkIn": "2024-12-14",
+    "checkOut": "2024-12-15",
+    "status": "cancelled",
+    "amount": "₦170,000"
+  }
+]

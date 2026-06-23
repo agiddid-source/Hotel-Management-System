@@ -1,0 +1,68 @@
+[
+  {
+    "id": "revenue",
+    "label": "Overall Revenue",
+    "value": "₦75,000,000",
+    "trend": {
+      "direction": "up",
+      "value": "+12%",
+      "label": "Than last month"
+    },
+    "icon": "dollar"
+  },
+  {
+    "id": "total-sales",
+    "label": "Total Sales",
+    "value": "5,000",
+    "trend": {
+      "direction": "up",
+      "value": "+8%",
+      "label": "Than last month"
+    },
+    "icon": "building"
+  },
+  {
+    "id": "total-orders",
+    "label": "Total Orders",
+    "value": "3,800",
+    "trend": {
+      "direction": "up",
+      "value": "+10%",
+      "label": "Than last month"
+    },
+    "icon": "bed"
+  },
+  {
+    "id": "checkins-today",
+    "label": "Check-ins Today",
+    "value": "18",
+    "trend": {
+      "direction": "up",
+      "value": "+6%",
+      "label": "vs yesterday"
+    },
+    "icon": "login"
+  },
+  {
+    "id": "checkouts-today",
+    "label": "Check-outs Today",
+    "value": "12",
+    "trend": {
+      "direction": "down",
+      "value": "-3%",
+      "label": "vs yesterday"
+    },
+    "icon": "logout"
+  },
+  {
+    "id": "reservations-today",
+    "label": "Reservations Today",
+    "value": "24",
+    "trend": {
+      "direction": "up",
+      "value": "+12%",
+      "label": "vs yesterday"
+    },
+    "icon": "calendar"
+  }
+]
