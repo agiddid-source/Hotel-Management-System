@@ -37,6 +37,7 @@ const Router = {
     guests: { title: 'Guests', subtitle: 'Review guest profiles and visit history.', module: () => Guests },
     payments: { title: 'Payments', subtitle: 'Monitor invoices, balances, and transactions.', module: () => Payments },
     inventory: { title: 'Inventory', subtitle: 'Manage hotel supplies and stock levels.', module: () => Inventory },
+    staff: { title: 'Staff', subtitle: 'Manage staff accounts and role assignments.', module: () => Staff, permission: 'staff_management' },
     settings: { title: 'Settings', subtitle: 'Configure hotel preferences and system controls.', module: () => Settings },
   },
 
@@ -78,6 +79,20 @@ const Router = {
     const route = this.routes[pageId];
     if (!route) {
       console.warn(`[Router] Unknown page: "${pageId}"`);
+      return;
+    }
+
+    // RBAC guard: block direct hash navigation to a page the current
+    // user doesn't have permission for (e.g. typing #staff in the URL
+    // bar even if the sidebar link is hidden). Relies on hasPermission()
+    // from auth-access-control/js/roles/roleGuard.js, loaded before
+    // this script in dashboard.html.
+    if (
+      route.permission &&
+      (typeof hasPermission !== 'function' || !hasPermission(route.permission))
+    ) {
+      console.warn(`[Router] Access denied to "${pageId}" — redirecting to 403.`);
+      window.location.href = (typeof AUTH_BASE !== 'undefined' ? AUTH_BASE : '') + '403.html';
       return;
     }
 

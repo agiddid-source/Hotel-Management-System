@@ -293,6 +293,165 @@
   </div>
 
   <!-- ============================================
+     ADD STAFF MODAL
+     Paste this inside dashboard.html, alongside
+     the other modal blocks (e.g. after edit-room-modal)
+     ============================================ -->
+<div id="cn-add-staff-modal" class="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto p-4 sm:items-center sm:p-6 hidden ghst-modal-shell">
+  <div class="fixed inset-0 bg-black/50 backdrop-blur-sm" onclick="Staff.closeAddStaffModal()"></div>
+
+  <div class="relative bg-surface-card border border-outline rounded-xl shadow-xl w-full max-w-md max-h-[calc(100dvh-2rem)] overflow-y-auto ghst-hide-scrollbar p-6 ghst-card-diffusion ghst-animate-fade-in-up ghst-modal-panel">
+    <div class="flex items-center justify-between mb-5">
+      <h3 class="text-xl font-heading font-semibold text-content-main">Add Staff</h3>
+      <button class="text-content-muted hover:text-content-main transition-colors" onclick="Staff.closeAddStaffModal()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <form id="cn-add-staff-form" class="space-y-4">
+
+      <div>
+        <label for="cn-add-staff-name" class="block text-sm font-medium text-content-sec mb-1.5">Full Name</label>
+        <input type="text" id="cn-add-staff-name" placeholder="e.g. Jane Okonkwo" required
+          class="w-full bg-surface-card border border-outline rounded-lg px-4 py-2.5 min-h-[44px] text-sm text-content-main placeholder:text-content-muted focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all duration-200">
+      </div>
+
+      <div>
+        <label for="cn-add-staff-email" class="block text-sm font-medium text-content-sec mb-1.5">Email Address</label>
+        <input type="email" id="cn-add-staff-email" placeholder="e.g. jane@hotelms.com" required
+          class="w-full bg-surface-card border border-outline rounded-lg px-4 py-2.5 min-h-[44px] text-sm text-content-main placeholder:text-content-muted focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all duration-200">
+      </div>
+
+      <div>
+        <label for="cn-add-staff-role" class="block text-sm font-medium text-content-sec mb-1.5">Role</label>
+        <div class="relative">
+          <select id="cn-add-staff-role" required
+            class="w-full bg-surface-card border border-outline rounded-lg px-4 py-2.5 min-h-[44px] text-sm text-content-main focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all duration-200 appearance-none">
+            <option value="">Select a role</option>
+            <option value="admin">Admin</option>
+            <option value="manager">Manager</option>
+            <option value="receptionist">Receptionist</option>
+            <option value="housekeeper">Housekeeper</option>
+            <option value="inventory_staff">Inventory Staff</option>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-content-muted">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label for="cn-add-staff-password" class="block text-sm font-medium text-content-sec mb-1.5">Temporary Password</label>
+        <div class="relative">
+          <input type="password" id="cn-add-staff-password" placeholder="Min. 8 characters" required
+            class="w-full bg-surface-card border border-outline rounded-lg px-4 py-2.5 pr-11 min-h-[44px] text-sm text-content-main placeholder:text-content-muted focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all duration-200">
+          <button type="button" id="cn-add-staff-password-toggle"
+            class="absolute right-3 top-1/2 -translate-y-1/2 text-content-muted hover:text-content-main transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <p class="mt-1.5 text-xs text-content-muted">Staff will be prompted to change this on first login.</p>
+      </div>
+
+      <div>
+        <label for="cn-add-staff-status" class="block text-sm font-medium text-content-sec mb-1.5">Account Status</label>
+        <select id="cn-add-staff-status"
+          class="w-full bg-surface-card border border-outline rounded-lg px-4 py-2.5 min-h-[44px] text-sm text-content-main focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all duration-200">
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+        </select>
+      </div>
+
+      <div class="flex items-center gap-3 pt-2">
+        <button type="button" onclick="Staff.closeAddStaffModal()" class="w-full justify-center ghst-btn-tactile inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium bg-surface-elevated hover:bg-surface-hover text-content-main border border-outline rounded-lg transition-all min-h-[44px]">
+          Cancel
+        </button>
+        <button type="submit" class="w-full justify-center ghst-btn-tactile inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium bg-brand hover:bg-brand-hover text-white rounded-lg shadow-lg shadow-brand/20 transition-all min-h-[44px]">
+          Create Staff Account
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<!-- ============================================
+     EDIT STAFF MODAL
+     ============================================ -->
+<div id="cn-edit-staff-modal" class="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto p-4 sm:items-center sm:p-6 hidden ghst-modal-shell">
+  <div class="fixed inset-0 bg-black/50 backdrop-blur-sm" onclick="Staff.closeEditStaffModal()"></div>
+
+  <div class="relative bg-surface-card border border-outline rounded-xl shadow-xl w-full max-w-md max-h-[calc(100dvh-2rem)] overflow-y-auto ghst-hide-scrollbar p-6 ghst-card-diffusion ghst-animate-fade-in-up ghst-modal-panel">
+    <div class="flex items-center justify-between mb-5">
+      <h3 class="text-xl font-heading font-semibold text-content-main">Edit Staff</h3>
+      <button class="text-content-muted hover:text-content-main transition-colors" onclick="Staff.closeEditStaffModal()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <!-- Staff Identity Banner -->
+    <div class="flex items-center gap-4 p-4 mb-5 bg-surface-elevated border border-outline rounded-lg">
+      <div id="cn-edit-staff-avatar" class="flex-shrink-0"></div>
+      <div class="min-w-0">
+        <p id="cn-edit-staff-banner-name" class="text-sm font-semibold text-content-main truncate"></p>
+        <p id="cn-edit-staff-banner-email" class="text-xs text-content-muted truncate"></p>
+      </div>
+    </div>
+
+    <form id="cn-edit-staff-form" class="space-y-4">
+
+      <div>
+        <label for="cn-edit-staff-name" class="block text-sm font-medium text-content-sec mb-1.5">Full Name</label>
+        <input type="text" id="cn-edit-staff-name" required
+          class="w-full bg-surface-card border border-outline rounded-lg px-4 py-2.5 min-h-[44px] text-sm text-content-main focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all duration-200">
+      </div>
+
+      <div>
+        <label for="cn-edit-staff-email" class="block text-sm font-medium text-content-sec mb-1.5">Email Address</label>
+        <input type="email" id="cn-edit-staff-email" required
+          class="w-full bg-surface-card border border-outline rounded-lg px-4 py-2.5 min-h-[44px] text-sm text-content-main focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all duration-200">
+      </div>
+
+      <div>
+        <label for="cn-edit-staff-role" class="block text-sm font-medium text-content-sec mb-1.5">Role</label>
+        <div class="relative">
+          <select id="cn-edit-staff-role" required
+            class="w-full bg-surface-card border border-outline rounded-lg px-4 py-2.5 min-h-[44px] text-sm text-content-main focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all duration-200 appearance-none">
+            <option value="admin">Admin</option>
+            <option value="manager">Manager</option>
+            <option value="receptionist">Receptionist</option>
+            <option value="housekeeper">Housekeeper</option>
+            <option value="inventory_staff">Inventory Staff</option>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-content-muted">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label for="cn-edit-staff-status" class="block text-sm font-medium text-content-sec mb-1.5">Account Status</label>
+        <select id="cn-edit-staff-status" required
+          class="w-full bg-surface-card border border-outline rounded-lg px-4 py-2.5 min-h-[44px] text-sm text-content-main focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all duration-200">
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+        </select>
+      </div>
+
+      <div class="flex items-center gap-3 pt-2">
+        <button type="button" onclick="Staff.closeEditStaffModal()" class="w-full justify-center ghst-btn-tactile inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium bg-surface-elevated hover:bg-surface-hover text-content-main border border-outline rounded-lg transition-all min-h-[44px]">
+          Cancel
+        </button>
+        <button type="submit" class="w-full justify-center ghst-btn-tactile inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium bg-brand hover:bg-brand-hover text-white rounded-lg shadow-lg shadow-brand/20 transition-all min-h-[44px]">
+          Save Changes
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
+  
+  <!-- ============================================
        RESERVATION MODAL
        ============================================ -->
   <div id="ghst-reservation-modal" class="fixed inset-0 z-[110] flex items-start justify-center overflow-y-auto p-4 sm:items-center sm:p-6 hidden ghst-modal-shell ghst-hide-scrollbar">
@@ -433,10 +592,17 @@
   <!-- ============================================
        CORE JAVASCRIPT
        ============================================ -->
+  
+  <!-- Auth & RBAC -->
+  <script>const AUTH_BASE = "./auth-access-control/";</script>
+  <script src="./auth-access-control/js/auth/session.js"></script>
+  <script src="./auth-access-control/js/roles/permission.js"></script>
+  <script src="./auth-access-control/js/roles/roleGuard.js"></script>  
   <script src="./js/components.js"></script>
   <script src="./js/sidebar.js"></script>
   <script src="./js/dashboard.js"></script>
   <script src="./js/rooms.js"></script>
+  <script src="./js/staff.js"></script>
   <script src="./js/placeholder-pages.js"></script>
   <script src="./js/router.js"></script>
 

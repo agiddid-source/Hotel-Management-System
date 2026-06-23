@@ -34,7 +34,7 @@ const Staff = {
   escapeKeyBound: false,
 
   /** @type {Array<string>} Modal element IDs managed by this page */
-  modalIds: ['add-staff-modal', 'edit-staff-modal'],
+  modalIds: ['cn-add-staff-modal', 'cn-edit-staff-modal'],
 
   roleLabels: {
     admin:           'Admin',
@@ -44,9 +44,8 @@ const Staff = {
     inventory_staff: 'Inventory Staff',
   },
 
-  // ============================================
+  
   // INITIALIZATION
-  // ============================================
 
   /**
    * Initialize the Staff module. Called by Router.navigate('staff').
@@ -69,7 +68,7 @@ const Staff = {
    * Set the action buttons in the page header.
    */
   setPageActions() {
-    const actionsEl = document.getElementById('page-actions');
+    const actionsEl = document.getElementById('ghst-page-actions');
     if (actionsEl) {
       actionsEl.innerHTML = `
         ${HMS.createButton('Add Staff', 'primary', { icon: 'plus-circle', onclick: 'Staff.openAddStaffModal()' })}
@@ -85,26 +84,25 @@ const Staff = {
       const modal = document.getElementById(modalId);
       return modal && !modal.classList.contains('hidden');
     });
-    document.body.classList.toggle('modal-open', anyModalOpen);
+    document.body.classList.toggle('ghst-modal-open', anyModalOpen);
   },
 
   /**
    * Close whichever Staff modal is currently visible (used for Escape key).
    */
   closeTopMostModal() {
-    for (const modalId of ['edit-staff-modal', 'add-staff-modal']) {
+    for (const modalId of ['cn-edit-staff-modal', 'cn-add-staff-modal']) {
       const modal = document.getElementById(modalId);
       if (modal && !modal.classList.contains('hidden')) {
-        if (modalId === 'edit-staff-modal') this.closeEditStaffModal();
-        if (modalId === 'add-staff-modal') this.closeAddStaffModal();
+        if (modalId === 'cn-edit-staff-modal') this.closeEditStaffModal();
+        if (modalId === 'cn-add-staff-modal') this.closeAddStaffModal();
         return;
       }
     }
   },
 
-  // ============================================
+  
   // DATA LAYER (simulated REST API)
-  // ============================================
 
   /**
    * GET /staffs — fetch from local JSON, cached in localStorage as a
@@ -148,12 +146,11 @@ const Staff = {
     this.data = await this.getStaffs();
   },
 
-  // ============================================
+  
   // MAIN RENDER
-  // ============================================
 
   render() {
-    const content = document.getElementById('main-content');
+    const content = document.getElementById('ghst-main-content');
     if (!content) return;
 
     const total    = this.data.length;
@@ -175,12 +172,12 @@ const Staff = {
 
           <div class="relative flex-1 max-w-sm">
             <span class="absolute left-3 top-1/2 -translate-y-1/2 text-content-muted">${HMS.getIcon('search')}</span>
-            <input type="text" id="staff-search-input" placeholder="Search by name, email or role..."
+            <input type="text" id="cn-staff-search-input" placeholder="Search by name, email or role..."
               class="w-full bg-surface-card border border-outline rounded-lg pl-10 pr-4 py-2.5 min-h-[44px] text-sm text-content-main placeholder:text-content-muted focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all duration-200"
             >
           </div>
 
-          <select id="staff-role-filter"
+          <select id="cn-staff-role-filter"
             class="bg-surface-card border border-outline rounded-lg px-4 py-2.5 min-h-[44px] text-sm text-content-main focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all duration-200"
           >
             <option value="">All Roles</option>
@@ -191,7 +188,7 @@ const Staff = {
             <option value="inventory_staff">Inventory Staff</option>
           </select>
 
-          <select id="staff-status-filter"
+          <select id="cn-staff-status-filter"
             class="bg-surface-card border border-outline rounded-lg px-4 py-2.5 min-h-[44px] text-sm text-content-main focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all duration-200"
           >
             <option value="">All Statuses</option>
@@ -199,7 +196,7 @@ const Staff = {
             <option value="inactive">Inactive</option>
           </select>
 
-          <button id="staff-reset-demo-btn" type="button" title="Dev only: reset mock data to original seed"
+          <button id="cn-staff-reset-demo-btn" type="button" title="Dev only: reset mock data to original seed"
             class="inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[44px] text-sm font-medium bg-surface-elevated hover:bg-surface-hover text-content-sec border border-outline rounded-lg transition-all btn-tactile"
           >
             Reset Demo Data
@@ -218,13 +215,13 @@ const Staff = {
                 <th class="px-4 py-3 w-12"></th>
               </tr>
             </thead>
-            <tbody id="staff-table-body">
+            <tbody id="cn-staff-table-body">
               ${this.renderStaffRows(this.data)}
             </tbody>
           </table>
         </div>
 
-        <p id="staff-result-count" class="px-6 py-3 text-xs text-content-muted border-t border-outline"></p>
+        <p id="cn-staff-result-count" class="px-6 py-3 text-xs text-content-muted border-t border-outline"></p>
 
       </div>
     `;
@@ -248,9 +245,8 @@ const Staff = {
     `, { variant: 'kpi' });
   },
 
-  // ============================================
+
   // TABLE RENDERING
-  // ============================================
 
   renderStaffRows(staffList) {
     if (staffList.length === 0) {
@@ -306,7 +302,7 @@ const Staff = {
   },
 
   updateResultCount(count) {
-    const el = document.getElementById('staff-result-count');
+    const el = document.getElementById('cn-staff-result-count');
     if (el) {
       el.textContent = count === 0
         ? ''
@@ -314,14 +310,12 @@ const Staff = {
     }
   },
 
-  // ============================================
   // SEARCH & FILTER
-  // ============================================
 
   bindFilterEvents() {
-    const searchInput  = document.getElementById('staff-search-input');
-    const roleFilter    = document.getElementById('staff-role-filter');
-    const statusFilter  = document.getElementById('staff-status-filter');
+    const searchInput  = document.getElementById('cn-staff-search-input');
+    const roleFilter    = document.getElementById('cn-staff-role-filter');
+    const statusFilter  = document.getElementById('cn-staff-status-filter');
 
     const apply = () => this.applyFilters();
 
@@ -331,9 +325,9 @@ const Staff = {
   },
 
   applyFilters() {
-    const term   = (document.getElementById('staff-search-input')?.value || '').toLowerCase().trim();
-    const role   = document.getElementById('staff-role-filter')?.value || '';
-    const status = document.getElementById('staff-status-filter')?.value || '';
+    const term   = (document.getElementById('cn-staff-search-input')?.value || '').toLowerCase().trim();
+    const role   = document.getElementById('cn-staff-role-filter')?.value || '';
+    const status = document.getElementById('cn-staff-status-filter')?.value || '';
 
     const filtered = this.data.filter(staff => {
       const matchesSearch =
@@ -348,15 +342,13 @@ const Staff = {
       return matchesSearch && matchesRole && matchesStatus;
     });
 
-    const tableBody = document.getElementById('staff-table-body');
+    const tableBody = document.getElementById('cn-staff-table-body');
     if (tableBody) tableBody.innerHTML = this.renderStaffRows(filtered);
 
     this.updateResultCount(filtered.length);
   },
 
-  // ============================================
   // TOGGLE STATUS (PUT /staffs/:id)
-  // ============================================
 
   async toggleStatus(staffId) {
     const staff = this.data.find(s => String(s.id) === String(staffId));
@@ -393,27 +385,25 @@ const Staff = {
     HMS.closeAllDropdowns();
   },
 
-  // ============================================
   // MODAL MANAGEMENT
-  // ============================================
 
   bindModalEvents() {
     if (!this.modalEventsBound) {
 
-      const addStaffForm = document.getElementById('add-staff-form');
+      const addStaffForm = document.getElementById('cn-add-staff-form');
       if (addStaffForm) {
         addStaffForm.addEventListener('submit', (e) => this.handleAddStaffSubmit(e));
       }
 
-      const editStaffForm = document.getElementById('edit-staff-form');
+      const editStaffForm = document.getElementById('cn-edit-staff-form');
       if (editStaffForm) {
         editStaffForm.addEventListener('submit', (e) => this.handleEditStaffSubmit(e));
       }
 
-      const addStaffPasswordToggle = document.getElementById('add-staff-password-toggle');
+      const addStaffPasswordToggle = document.getElementById('cn-add-staff-password-toggle');
       if (addStaffPasswordToggle) {
         addStaffPasswordToggle.addEventListener('click', () => {
-          const input = document.getElementById('add-staff-password');
+          const input = document.getElementById('cn-add-staff-password');
           input.type = input.type === 'password' ? 'text' : 'password';
         });
       }
@@ -430,7 +420,7 @@ const Staff = {
   },
 
   bindResetButton() {
-    const btn = document.getElementById('staff-reset-demo-btn');
+    const btn = document.getElementById('cn-staff-reset-demo-btn');
     if (!btn) return;
 
     btn.addEventListener('click', async () => {
@@ -452,12 +442,11 @@ const Staff = {
     });
   },
 
-  // ============================================
+  
   // ADD STAFF
-  // ============================================
 
   openAddStaffModal() {
-    const modal = document.getElementById('add-staff-modal');
+    const modal = document.getElementById('cn-add-staff-modal');
     if (modal) {
       modal.classList.remove('hidden');
       this.refreshModalScrollLock();
@@ -466,22 +455,82 @@ const Staff = {
   },
 
   closeAddStaffModal() {
-    const modal = document.getElementById('add-staff-modal');
+    const modal = document.getElementById('cn-add-staff-modal');
     if (modal) {
       modal.classList.add('hidden');
-      document.getElementById('add-staff-form')?.reset();
+      document.getElementById('cn-add-staff-form')?.reset();
       this.refreshModalScrollLock();
     }
+  },
+
+  
+  // LOADING TOAST HELPER
+  // Shows a spinner toast while a save operation is in progress,
+  // then removes it so the success/error toast can follow cleanly.
+  
+
+  showLoadingToast(message = 'Saving...') {
+    const existing = document.getElementById('cn-staff-loading-toast');
+    if (existing) existing.remove();
+
+    let toastContainer = document.getElementById('ghst-toast-container');
+    if (!toastContainer) {
+      toastContainer = document.createElement('div');
+      toastContainer.id = 'ghst-toast-container';
+      toastContainer.className = 'fixed top-6 right-6 z-[150] flex flex-col gap-3 pointer-events-none';
+      document.body.appendChild(toastContainer);
+    }
+
+    const toastEl = document.createElement('div');
+    toastEl.id = 'cn-staff-loading-toast';
+    toastEl.className = [
+      'bg-surface-card border border-outline text-content-main',
+      'rounded-lg px-4 py-3 flex items-center gap-3 shadow-lg',
+      'ghst-animate-slide-in-right pointer-events-auto min-h-[44px]',
+      'backdrop-blur-sm',
+    ].join(' ');
+
+    toastEl.innerHTML = `
+      <div class="flex-shrink-0 text-brand">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round"
+          style="animation: spin 1s linear infinite;">
+          <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+        </svg>
+      </div>
+      <div class="flex-1 text-sm font-medium">${message}</div>
+    `;
+
+    if (!document.getElementById('cn-spin-style')) {
+      const style = document.createElement('style');
+      style.id = 'cn-spin-style';
+      style.textContent = '@keyframes spin { to { transform: rotate(360deg); } }';
+      document.head.appendChild(style);
+    }
+
+    toastContainer.appendChild(toastEl);
+  },
+
+  hideLoadingToast() {
+    const el = document.getElementById('cn-staff-loading-toast');
+    if (el) el.remove();
+  },
+
+  simulateDelay() {
+    return new Promise(resolve =>
+      setTimeout(resolve, Math.floor(Math.random() * 1000) + 2000)
+    );
   },
 
   async handleAddStaffSubmit(event) {
     event.preventDefault();
 
-    const fullName = document.getElementById('add-staff-name').value.trim();
-    const email    = document.getElementById('add-staff-email').value.trim();
-    const role     = document.getElementById('add-staff-role').value;
-    const password = document.getElementById('add-staff-password').value;
-    const status   = document.getElementById('add-staff-status').value;
+    const fullName = document.getElementById('cn-add-staff-name').value.trim();
+    const email    = document.getElementById('cn-add-staff-email').value.trim();
+    const role     = document.getElementById('cn-add-staff-role').value;
+    const password = document.getElementById('cn-add-staff-password').value;
+    const status   = document.getElementById('cn-add-staff-status').value;
 
     if (!fullName || !email || !role || !password) {
       HMS.showToast({ message: 'Please fill in all required fields', variant: 'error' });
@@ -509,8 +558,11 @@ const Staff = {
 
     this.data.push(newStaff);
 
-    // POST /staffs (simulated)
+    // Show loading toast while simulating the POST /staffs request
+    this.showLoadingToast('Creating staff account...');
+    await this.simulateDelay();
     await this.saveStaffs(this.data);
+    this.hideLoadingToast();
 
     this.render();
     this.closeAddStaffModal();
@@ -518,9 +570,8 @@ const Staff = {
     HMS.showToast({ message: `${fullName} added successfully`, variant: 'success' });
   },
 
-  // ============================================
+  
   // EDIT STAFF
-  // ============================================
 
   openEditStaffModal(staffId) {
     const staff = this.data.find(s => String(s.id) === String(staffId));
@@ -531,20 +582,20 @@ const Staff = {
 
     this.currentEditingStaffId = staffId;
 
-    document.getElementById('edit-staff-name').value   = staff.name;
-    document.getElementById('edit-staff-email').value  = staff.email;
-    document.getElementById('edit-staff-role').value   = staff.role;
-    document.getElementById('edit-staff-status').value = staff.status;
+    document.getElementById('cn-edit-staff-name').value   = staff.name;
+    document.getElementById('cn-edit-staff-email').value  = staff.email;
+    document.getElementById('cn-edit-staff-role').value   = staff.role;
+    document.getElementById('cn-edit-staff-status').value = staff.status;
 
-    const bannerAvatar = document.getElementById('edit-staff-avatar');
-    const bannerName   = document.getElementById('edit-staff-banner-name');
-    const bannerEmail  = document.getElementById('edit-staff-banner-email');
+    const bannerAvatar = document.getElementById('cn-edit-staff-avatar');
+    const bannerName   = document.getElementById('cn-edit-staff-banner-name');
+    const bannerEmail  = document.getElementById('cn-edit-staff-banner-email');
 
     if (bannerAvatar) bannerAvatar.innerHTML = HMS.createAvatar(staff.name, 'md');
     if (bannerName)   bannerName.textContent = staff.name;
     if (bannerEmail)  bannerEmail.textContent = staff.email;
 
-    const modal = document.getElementById('edit-staff-modal');
+    const modal = document.getElementById('cn-edit-staff-modal');
     if (modal) {
       modal.classList.remove('hidden');
       this.refreshModalScrollLock();
@@ -554,10 +605,10 @@ const Staff = {
   },
 
   closeEditStaffModal() {
-    const modal = document.getElementById('edit-staff-modal');
+    const modal = document.getElementById('cn-edit-staff-modal');
     if (modal) {
       modal.classList.add('hidden');
-      document.getElementById('edit-staff-form')?.reset();
+      document.getElementById('cn-edit-staff-form')?.reset();
     }
     this.currentEditingStaffId = null;
     this.refreshModalScrollLock();
@@ -571,10 +622,10 @@ const Staff = {
       return;
     }
 
-    const updatedName   = document.getElementById('edit-staff-name').value.trim();
-    const updatedEmail  = document.getElementById('edit-staff-email').value.trim();
-    const updatedRole   = document.getElementById('edit-staff-role').value;
-    const updatedStatus = document.getElementById('edit-staff-status').value;
+    const updatedName   = document.getElementById('cn-edit-staff-name').value.trim();
+    const updatedEmail  = document.getElementById('cn-edit-staff-email').value.trim();
+    const updatedRole   = document.getElementById('cn-edit-staff-role').value;
+    const updatedStatus = document.getElementById('cn-edit-staff-status').value;
 
     if (!updatedName || !updatedEmail || !updatedRole) {
       HMS.showToast({ message: 'Please fill in all required fields', variant: 'error' });
@@ -601,8 +652,11 @@ const Staff = {
         status: updatedStatus,
       };
 
-      // PUT /staffs/:id (simulated)
+      // Show loading toast while simulating the PUT /staffs/:id request
+      this.showLoadingToast('Saving changes...');
+      await this.simulateDelay();
       await this.saveStaffs(this.data);
+      this.hideLoadingToast();
 
       this.render();
       this.closeEditStaffModal();

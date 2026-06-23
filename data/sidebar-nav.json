@@ -11,6 +11,7 @@
         { "id": "rooms", "label": "Rooms", "icon": "rooms" },
         { "id": "reservations", "label": "Reservations", "icon": "reservations" },
         { "id": "guests", "label": "Guests", "icon": "guests" },
+        { "id": "staff", "label": "Staff", "icon": "guests", "permission": "staff_management" },
         { "id": "payments", "label": "Payments", "icon": "payments" },
         { "id": "inventory", "label": "Inventory", "icon": "inventory" }
       ]

@@ -35,6 +35,7 @@ const Sidebar = {
           { id: 'rooms', label: 'Rooms', icon: 'rooms' },
           { id: 'reservations', label: 'Reservations', icon: 'reservations' },
           { id: 'guests', label: 'Guests', icon: 'guests' },
+          { id: 'staff', label: 'Staff', icon: 'guests', permission: 'staff_management' },
           { id: 'payments', label: 'Payments', icon: 'payments' },
           { id: 'inventory', label: 'Inventory', icon: 'inventory' },
         ],
@@ -120,7 +121,12 @@ const Sidebar = {
     const profile = this.navConfig?.profile || this.fallbackNavConfig.profile;
 
     const navHtml = sections.map((section, sectionIndex) => {
-      const itemsHtml = section.items.map((item) => `
+      const visibleItems = section.items.filter((item) => {
+        if (!item.permission) return true;
+        return typeof hasPermission === 'function' && hasPermission(item.permission);
+      });
+
+      const itemsHtml = visibleItems.map((item) => `
         <a href="#${item.id}" id="ghst-nav-${item.id}" 
            class="ghst-nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 text-content-sec hover:bg-surface-hover hover:text-content-main group"
            data-page="${item.id}"
